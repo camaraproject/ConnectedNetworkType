@@ -22,8 +22,7 @@ info:
       - `5G`, if device is connected to the 5G network technology
       - `UNKNOWN` if connection [technology] can not be determined
 
-
-    * **LastStatusTime** : This property specifies the time when the status was last updated. Its presence in the response indicates the freshness of the information, while its absence implies the information may be outdated or its freshness is uncertain.
+    * **LastStatusTime** : This property specifies the time when the status was last confirmed to be correct. An older status is more likely to now be incorrect.
 
     # API Functionality
 
@@ -173,6 +172,7 @@ components:
     ConnectedNetworkTypeResponse:
       type: object
       required:
+        - lastStatusTime
         - connectedNetworkType
       properties:
         lastStatusTime:

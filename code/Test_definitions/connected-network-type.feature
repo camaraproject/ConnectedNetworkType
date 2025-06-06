@@ -34,7 +34,7 @@ Feature: CAMARA Connected Network Type API, vwip - Operation getConnectedNetwork
     And the response header "x-correlator" has same value as the request header "x-correlator"
     And the response body complies with the OAS schema at "#/components/schemas/ConnectedNetworkTypeResponse"
     And the response property "$.connectedNetworkType" is "2G" or "3G" or "4G" or "5G"
-    And if the response property "$.lastStatusTime" is present, then the value has a valid date-time format
+    And the response property "$.lastStatusTime" is present and has a valid date-time format for a time in the past
 
   @connected_network_type_02_retrieval_undetermined_network
   Scenario: The connected network type of the user device can not be determined
@@ -47,7 +47,7 @@ Feature: CAMARA Connected Network Type API, vwip - Operation getConnectedNetwork
     And the response header "x-correlator" has same value as the request header "x-correlator"
     And the response body complies with the OAS schema at "#/components/schemas/ConnectedNetworkTypeResponse"
     And the response property "$.connectedNetworkType" is "UNKNOWN"
-    And if the response property "$.lastStatusTime" is present, then the value has a valid date-time format
+    And the response property "$.lastStatusTime" is present and has a valid date-time format for a time in the past
 
 #################
 # Error scenarios for management of input parameter device
