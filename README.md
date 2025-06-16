@@ -17,14 +17,15 @@ Sandbox API Repository to describe, develop, document, and test the ConnectedNet
 
 * Service API(s) “ConnectedNetworkType” (see APIBacklog.md) 
 * The API(s) provide(s) the API consumer with the ability to:  
-  * §Short API scope description§ !! Add here a scope description according to the API proposal
+  * query the the mobile technology of the network that the device is connected to
+  * receive notifications when the connected network type has changed
 * Describe, develop, document, and test the API(s)
-* Started: §start date§
+* Started: June 2024
 <!-- * Incubating stage since: {{incubation date}} --> 
 
 ## Release Information
 
-The repository has no (pre)releases yet, work in progress is within the main branch.
+The latest public release of the Device Status repository, including the ConnectedNetworkType API, is available here: https://github.com/camaraproject/DeviceStatus/releases/latest
 <!-- Optional: an explicit listing of the latest (pre-)release with additional information, e.g. links to the API definitions -->
 <!-- In addition use/uncomment one or multiple the following alternative options when becoming applicable -->
 <!-- Pre-releases of this sub project are available in https://github.com/camaraproject/ConnectedNetworkType/releases -->
