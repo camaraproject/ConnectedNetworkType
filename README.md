@@ -20,7 +20,7 @@ Sandbox API Repository to describe, develop, document, and test the ConnectedNet
   * query the the mobile technology of the network that the device is connected to
   * receive notifications when the connected network type has changed
 * Describe, develop, document, and test the API(s)
-* Started: June 2024
+* Started: June 2024 (within [DeviceStatus](https://github.com/camaraproject/DeviceStatus) repository)
 <!-- * Incubating stage since: {{incubation date}} --> 
 
 ## Release Information
