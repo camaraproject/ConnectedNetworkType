@@ -133,19 +133,6 @@ Feature: CAMARA Connected Network Type API, vwip - Operation getConnectedNetwork
     And the response property "$.code" is "SERVICE_NOT_APPLICABLE"
     And the response property "$.message" contains a user-friendly text
 
-  # Several identifiers provided but they do not identify the same device
-  # This scenario may happen with 2-legged access tokens, which do not identify a device
-  @connected_network_type_C01.08_device_identifiers_mismatch
-  Scenario: Device identifiers mismatch
-    Given the header "Authorization" is set to a valid access token which does not identify a single device
-    And at least 2 types of device identifiers are supported by the implementation
-    And the request body property "$.device" includes several identifiers, each of them identifying a valid but different device
-    When the request "getConnectedNetworkType" is sent
-    Then the response status code is 422
-    And the response property "$.status" is 422
-    And the response property "$.code" is "IDENTIFIER_MISMATCH"
-    And the response property "$.message" contains a user friendly text
-
 #################
 # Error code 401
 #################
