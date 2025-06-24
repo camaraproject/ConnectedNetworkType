@@ -34,7 +34,7 @@ info:
     Following event ``type`` are managed for this API:
       - ``org.camaraproject.connected-network-type-subscriptions.v0.network-type-changed``: This event is triggered when the connected network type of the device changes.
 
-    Note: Additionally, the event `org.camaraproject.connected-network-type-subscriptions.v0.subscription-ends` is sent when the subscription ends.
+    Note: Additionally, the event `org.camaraproject.connected-network-type-subscriptions.v0.subscription-ended` is sent when the subscription is terminated.
     This notification does not require dedicated subscription.
 
     It is used in following cases:
@@ -163,7 +163,7 @@ paths:
                     examples:
                       network-type-changed:
                         $ref: "#/components/examples/NETWORK_TYPE_CHANGED"
-                      subscription-ends:
+                      subscription-ended:
                         $ref: "#/components/examples/SUBSCRIPTION_ENDS"
               responses:
                 "204":
@@ -588,7 +588,7 @@ components:
         subscription-ends - Event triggered when the subscription is terminated
       enum:
         - org.camaraproject.connected-network-type-subscriptions.v0.network-type-changed
-        - org.camaraproject.connected-network-type-subscriptions.v0.subscription-ends
+        - org.camaraproject.connected-network-type-subscriptions.v0.subscription-ended
 
     SubscriptionEventType:
       type: string
@@ -809,7 +809,7 @@ components:
         propertyName: "type"
         mapping:
           org.camaraproject.connected-network-type-subscriptions.v0.network-type-changed: "#/components/schemas/EventNetworkTypeChange"
-          org.camaraproject.connected-network-type-subscriptions.v0.subscription-ends: "#/components/schemas/EventSubscriptionEnds"
+          org.camaraproject.connected-network-type-subscriptions.v0.subscription-ended: "#/components/schemas/EventSubscriptionEnds"
 
     Source:
       type: string
@@ -1437,7 +1437,7 @@ components:
       value:
         id: "124003"
         source: https://dataUsageServer.supertelco.com
-        type: "org.camaraproject.connected-network-type-subscriptions.v0.subscription-ends"
+        type: "org.camaraproject.connected-network-type-subscriptions.v0.subscription-ended"
         specversion: "1.0"
         datacontenttype: application/json
         data:
