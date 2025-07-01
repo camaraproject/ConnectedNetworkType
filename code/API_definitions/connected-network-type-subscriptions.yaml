@@ -34,7 +34,7 @@ info:
     Following event ``type`` are managed for this API:
       - ``org.camaraproject.connected-network-type-subscriptions.v0.network-type-changed``: This event is triggered when the connected network type of the device changes.
 
-    Note: Additionally, the event `org.camaraproject.connected-network-type-subscriptions.v0.subscription-ends` is sent when the subscription ends.
+    Note: Additionally, the event `org.camaraproject.connected-network-type-subscriptions.v0.subscription-ended` is sent when the subscription is terminated.
     This notification does not require dedicated subscription.
 
     It is used in following cases:
@@ -163,8 +163,8 @@ paths:
                     examples:
                       network-type-changed:
                         $ref: "#/components/examples/NETWORK_TYPE_CHANGED"
-                      subscription-ends:
-                        $ref: "#/components/examples/SUBSCRIPTION_ENDS"
+                      subscription-ended:
+                        $ref: "#/components/examples/SUBSCRIPTION_ENDED"
               responses:
                 "204":
                   description: Successful notification
@@ -581,10 +581,10 @@ components:
       type: string
       description: |
         network-type-changed - Event triggered when the connected network type of the device changes.
-        subscription-ends - Event triggered when the subscription is terminated
+        subscription-ended - Event triggered when the subscription is terminated
       enum:
         - org.camaraproject.connected-network-type-subscriptions.v0.network-type-changed
-        - org.camaraproject.connected-network-type-subscriptions.v0.subscription-ends
+        - org.camaraproject.connected-network-type-subscriptions.v0.subscription-ended
 
     SubscriptionEventType:
       type: string
@@ -805,7 +805,7 @@ components:
         propertyName: "type"
         mapping:
           org.camaraproject.connected-network-type-subscriptions.v0.network-type-changed: "#/components/schemas/EventNetworkTypeChange"
-          org.camaraproject.connected-network-type-subscriptions.v0.subscription-ends: "#/components/schemas/EventSubscriptionEnds"
+          org.camaraproject.connected-network-type-subscriptions.v0.subscription-ended: "#/components/schemas/EventSubscriptionEnded"
 
     Source:
       type: string
@@ -852,17 +852,17 @@ components:
         subscriptionId:
           $ref: "#/components/schemas/SubscriptionId"
 
-    EventSubscriptionEnds:
+    EventSubscriptionEnded:
       description: event structure for event subscription ends
       allOf:
         - $ref: "#/components/schemas/CloudEvent"
         - type: object
           properties:
             data:
-              $ref: "#/components/schemas/SubscriptionEnds"
+              $ref: "#/components/schemas/SubscriptionEnded"
 
-    SubscriptionEnds:
-      description: Event detail structure for SUBSCRIPTION_ENDS event
+    SubscriptionEnded:
+      description: Event detail structure for SUBSCRIPTION_ENDED event
       type: object
       required:
         - terminationReason
@@ -1434,11 +1434,11 @@ components:
           connectedNetworkType: 5G
         time: "2023-03-22T05:40:23.682Z"
 
-    SUBSCRIPTION_ENDS:
+    SUBSCRIPTION_ENDED:
       value:
         id: "124003"
         source: https://dataUsageServer.supertelco.com
-        type: "org.camaraproject.connected-network-type-subscriptions.v0.subscription-ends"
+        type: "org.camaraproject.connected-network-type-subscriptions.v0.subscription-ended"
         specversion: "1.0"
         datacontenttype: application/json
         data:
