@@ -215,8 +215,8 @@ paths:
               examples:
                 Active Subscription:
                   $ref: "#/components/examples/ACTIVE_SUBSCRIPTION"
-                Active Subscription With Device Disambiguation:
-                  $ref: "#/components/examples/ACTIVE_SUBSCRIPTION_WITH_DEVICE_DISAMBIGUATION"
+                Active Subscription With Device Identifier:
+                  $ref: "#/components/examples/ACTIVE_SUBSCRIPTION_WITH_DEVICE_IDENTIFIER"
         "202":
           description: Request accepted to be processed. It applies for async creation process.
           headers:
@@ -300,8 +300,8 @@ paths:
               examples:
                 Active Subscription:
                   $ref: "#/components/examples/ACTIVE_SUBSCRIPTION"
-                Active Subscription With Device Disambiguation:
-                  $ref: "#/components/examples/ACTIVE_SUBSCRIPTION_WITH_DEVICE_DISAMBIGUATION"
+                Active Subscription With Device Identifier:
+                  $ref: "#/components/examples/ACTIVE_SUBSCRIPTION_WITH_DEVICE_IDENTIFIER"
                 Subscription Activation Requested:
                   $ref: "#/components/examples/SUBSCRIPTION_ACTIVATION_REQUESTED"
                 Subscription Deleted:
@@ -1559,6 +1559,7 @@ components:
         time: "2024-03-05T15:00:23.682Z"
 
     SUBSCRIPTION_ACTIVATION_REQUESTED:
+      description: Subscription details for a subscription whose activation has been requested
       value:
         id: 550e8400-e29b-41d4-a716-446655440000
         sink: https://endpoint.example.com/sink
@@ -1575,6 +1576,7 @@ components:
         status: ACTIVATION_REQUESTED
 
     SUBSCRIPTION_DELETED:
+      description: Subscription details for a subscription that has been deleted
       value:
         id: 550e8400-e29b-41d4-a716-446655440000
         sink: https://endpoint.example.com/sink
@@ -1621,6 +1623,7 @@ components:
         time: "2024-03-05T15:00:23.682Z"
 
     ACTIVE_SUBSCRIPTION:
+      description: Subscription details for an active subscription
       value:
         id: 550e8400-e29b-41d4-a716-446655440000
         sink: https://endpoint.example.com/sink
@@ -1636,7 +1639,8 @@ components:
         startsAt: "2024-07-03T21:12:02.871Z"
         expiresAt: "2024-07-03T21:12:02.871Z"
 
-    ACTIVE_SUBSCRIPTION_WITH_DEVICE_DISAMBIGUATION:
+    ACTIVE_SUBSCRIPTION_WITH_DEVICE_IDENTIFIER:
+      description: Subscription details for an active subscription when a device identifier is also returned
       value:
         id: 550e8400-e29b-41d4-a716-446655440000
         sink: https://endpoint.example.com/sink
@@ -1655,6 +1659,7 @@ components:
         expiresAt: "2024-07-03T21:12:02.871Z"
 
     CREATE_SUBSCRIPTION:
+      description: Subscription creation confirmation
       value:
         sink: "https://endpoint.example.com/sink"
         sinkCredential: {
