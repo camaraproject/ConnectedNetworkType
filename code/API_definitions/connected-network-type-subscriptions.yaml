@@ -38,8 +38,10 @@ info:
     Following event ``type`` are managed for this API:
       - ``org.camaraproject.connected-network-type-subscriptions.v0.network-type-changed``: This event is triggered when the connected network type of the device changes.
 
-    Note: Additionally, the event `org.camaraproject.connected-network-type-subscriptions.v0.subscription-ended` is sent when the subscription is terminated.
-    This notification does not require dedicated subscription.
+    Note: Additionally, the following events could be send, which do not require a dedicated subscription:
+      - `org.camaraproject.connected-network-type-subscriptions.v0.subscription-started` is sent when the subscription starts.
+      - `org.camaraproject.connected-network-type-subscriptions.v0.subscription-updated` is sent when the subscription is updated.
+      - `org.camaraproject.connected-network-type-subscriptions.v0.subscription-ended` is sent when the subscription ends.
 
     It is used in following cases:
       - the subscription expire time (optionally set by the requester) has been reached
@@ -174,6 +176,10 @@ paths:
                     examples:
                       network-type-changed:
                         $ref: "#/components/examples/NETWORK_TYPE_CHANGED"
+                      subscription-started:
+                        $ref: "#/components/examples/SUBSCRIPTION_STARTED"
+                      subscription-updated:
+                        $ref: "#/components/examples/SUBSCRIPTION_UPDATED"
                       subscription-ended:
                         $ref: "#/components/examples/SUBSCRIPTION_ENDED"
               responses:
@@ -604,10 +610,14 @@ components:
     EventTypeNotification:
       type: string
       description: |
-        network-type-changed - Event triggered when the connected network type of the device changes.
-        subscription-ended - Event triggered when the subscription is terminated
+        network-type-changed - Event triggered when the connected network type of the device changes
+        subscription-started - Event triggered when the subscription starts
+        subscription-updated - Event triggered when the subscription is updated
+        subscription-ended   - Event triggered when the subscription is terminated
       enum:
         - org.camaraproject.connected-network-type-subscriptions.v0.network-type-changed
+        - org.camaraproject.connected-network-type-subscriptions.v0.subscription-started
+        - org.camaraproject.connected-network-type-subscriptions.v0.subscription-updated
         - org.camaraproject.connected-network-type-subscriptions.v0.subscription-ended
 
     SubscriptionEventType:
@@ -839,6 +849,8 @@ components:
         propertyName: "type"
         mapping:
           org.camaraproject.connected-network-type-subscriptions.v0.network-type-changed: "#/components/schemas/EventNetworkTypeChange"
+          org.camaraproject.connected-network-type-subscriptions.v0.subscription-started: "#/components/schemas/EventSubscriptionStarted"
+          org.camaraproject.connected-network-type-subscriptions.v0.subscription-updated: "#/components/schemas/EventSubscriptionUpdated"
           org.camaraproject.connected-network-type-subscriptions.v0.subscription-ended: "#/components/schemas/EventSubscriptionEnded"
 
     Source:
@@ -894,6 +906,74 @@ components:
           properties:
             data:
               $ref: "#/components/schemas/SubscriptionEnded"
+
+    EventSubscriptionStarted:
+      description: Event structure for event subscription started
+      allOf:
+        - $ref: "#/components/schemas/CloudEvent"
+        - type: object
+          properties:
+            data:
+              $ref: "#/components/schemas/SubscriptionStarted"
+
+    SubscriptionStarted:
+      description: Event detail structure for subscription started event
+      type: object
+      required:
+        - initiationReason
+        - subscriptionId
+      properties:
+        device:
+          $ref: "#/components/schemas/Device"
+        initiationReason:
+          $ref: "#/components/schemas/InitiationReason"
+        subscriptionId:
+          $ref: "#/components/schemas/SubscriptionId"
+        initiationDescription:
+          description: Description about the start of the subscription.
+          type: string
+
+    InitiationReason:
+      type: string
+      description: |
+        - SUBSCRIPTION_CREATED - Subscription created by API Server
+      enum:
+        - SUBSCRIPTION_CREATED
+
+    EventSubscriptionUpdated:
+      description: Event structure for event subscription updated
+      allOf:
+        - $ref: "#/components/schemas/CloudEvent"
+        - type: object
+          properties:
+            data:
+              $ref: "#/components/schemas/SubscriptionUpdated"
+
+    SubscriptionUpdated:
+      description: Event detail structure for subscription updated event
+      type: object
+      required:
+        - updateReason
+        - subscriptionId
+      properties:
+        device:
+          $ref: "#/components/schemas/Device"
+        updateReason:
+          $ref: "#/components/schemas/UpdateReason"
+        subscriptionId:
+          $ref: "#/components/schemas/SubscriptionId"
+        updateDescription:
+          description: Description about the subscription update.
+          type: string
+
+    UpdateReason:
+      type: string
+      description: |
+        - SUBSCRIPTION_ACTIVE - API server transitioned susbcription status to `ACTIVE`
+        - SUBSCRIPTION_INACTIVE - API server transitioned susbcription status to `INACTIVE`
+      enum:
+        - SUBSCRIPTION_ACTIVE
+        - SUBSCRIPTION_INACTIVE
 
     SubscriptionEnded:
       description: Event detail structure for SUBSCRIPTION_ENDED event
@@ -1463,6 +1543,7 @@ components:
         time: "2023-03-22T05:40:23.682Z"
 
     SUBSCRIPTION_ENDED:
+      description: The cloud event when a connected network type subscription ends
       value:
         id: "124003"
         source: https://dataUsageServer.supertelco.com
@@ -1508,6 +1589,36 @@ components:
         startsAt: "2024-07-03T21:12:02.871Z"
         expiresAt: "2024-07-03T21:12:02.871Z"
         status: DELETED
+
+    SUBSCRIPTION_STARTED:
+      description: The cloud event when a connected network type subscription was started.
+      value:
+        id: "124003"
+        source: https://notificationSendServer12.supertelco.com
+        type: org.camaraproject.connected-network-type-subscriptions.v0.subscription-started
+        specversion: "1.0"
+        datacontenttype: application/json
+        data:
+          initiationReason: SUBSCRIPTION_CREATED
+          subscriptionId: qs15-h556-rt89-1298
+          device:
+            phoneNumber: "+123456789"
+        time: "2024-03-05T15:00:23.682Z"
+
+    SUBSCRIPTION_UPDATED:
+      description: The cloud event when a connected network type subscription was updated.
+      value:
+        id: "124773"
+        source: https://notificationSendServer12.supertelco.com
+        type: org.camaraproject.connected-network-type-subscriptions.v0.subscription-updated
+        specversion: "1.0"
+        datacontenttype: application/json
+        data:
+          updateReason: SUBSCRIPTION_ACTIVE
+          subscriptionId: qs15-h556-rt89-1298
+          device:
+            phoneNumber: "+123456789"
+        time: "2024-03-05T15:00:23.682Z"
 
     ACTIVE_SUBSCRIPTION:
       value:
