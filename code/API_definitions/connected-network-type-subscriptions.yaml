@@ -38,7 +38,7 @@ info:
     Following event ``type`` are managed for this API:
       - ``org.camaraproject.connected-network-type-subscriptions.v0.network-type-changed``: This event is triggered when the connected network type of the device changes.
 
-    Note: Additionally, the following events could be send, which do not require a dedicated subscription:
+    Note: Additionally, the following events could be sent, which do not require a dedicated subscription:
       - `org.camaraproject.connected-network-type-subscriptions.v0.subscription-started` is sent when the subscription starts.
       - `org.camaraproject.connected-network-type-subscriptions.v0.subscription-updated` is sent when the subscription is updated.
       - `org.camaraproject.connected-network-type-subscriptions.v0.subscription-ended` is sent when the subscription ends.
@@ -58,7 +58,7 @@ info:
     **Clarification on ``initialEvent`` & ``event-type`` behaviour:**
 
     When ``initialEvent`` is set to ``true`` in the subscription request, a notification has to be sent immediately to provide the connected network type of the device targeted.
-    Note: If the status can not be determined, or if the device is not connected, we send an inital event with ``connectedNetworkType`` valued to`UNKNOWN`.
+    Note: If the status can not be determined, or if the device is not connected, we send an initial event with ``connectedNetworkType`` valued to`UNKNOWN`.
 
     ### Notifications callback
 
@@ -969,8 +969,8 @@ components:
     UpdateReason:
       type: string
       description: |
-        - SUBSCRIPTION_ACTIVE - API server transitioned susbcription status to `ACTIVE`
-        - SUBSCRIPTION_INACTIVE - API server transitioned susbcription status to `INACTIVE`
+        - SUBSCRIPTION_ACTIVE - API server transitioned subscription status to `ACTIVE`
+        - SUBSCRIPTION_INACTIVE - API server transitioned subscription status to `INACTIVE`
       enum:
         - SUBSCRIPTION_ACTIVE
         - SUBSCRIPTION_INACTIVE
