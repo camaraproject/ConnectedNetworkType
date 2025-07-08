@@ -129,7 +129,7 @@ paths:
               examples:
                 Connected To 4G:
                   value:
-                    : "2024-02-20T10:41:38.657Z"
+                    lastStatusTime: "2024-02-20T10:41:38.657Z"
                     connectedNetworkType: 4G
                 Connected To 4G With Device Disambiguation:
                   value:
