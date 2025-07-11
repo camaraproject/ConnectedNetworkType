@@ -355,6 +355,16 @@ Feature: CAMARA Connected Network Type Subscriptions API, v0.2.0-rc.1 - Operatio
     And the response property "$.code" is "INVALID_TOKEN"
     And the response property "$.message" contains a user friendly text
 
+  @connected_network_type_subscriptions_400.7_create_subscription_with_invalid_sink_url
+  Scenario: Subscription creation with invalid url
+    Given the request body is compliant with the schema "#/components/schemas/SubscriptionRequest"
+    And the request property "$.protocol" is set to "HTTP"
+    And the request property "$.sink" is set to "azerty"
+    When the request "createConnectedNetworkTypeSubscription" is sent
+    Then the response property "$.status" is 400
+    And the response property "$.code" is "INVALID_SINK"
+    And the response property "$.message" contains a user friendly text
+
 ##################
 # Error code 401
 ##################
