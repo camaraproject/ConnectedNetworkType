@@ -21,8 +21,8 @@ This public release contains the definition and documentation of
 * connected-network-type-subscriptions v0.2.0-rc.1
 
 The API definition(s) are based on
-* Commonalities v0.6.0
-* Identity and Consent Management v0.4.0
+* Commonalities v0.6.0-rc.1 (r3.2)
+* Identity and Consent Management v0.4.0-rc.1 (r3.2)
 
 ## connected-network-type v0.2.0-rc.1
 
