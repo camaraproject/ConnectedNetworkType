@@ -17,7 +17,7 @@ Feature: CAMARA Connected Network Type Subscriptions API, v0.2.0-rc.1 - Operatio
   Background: Connected Network Type Subscriptions setup
     Given the resource "{apiroot}/connected-network-type-subscriptions/v0.2rc1" as base-url
     And the header "Authorization" is set to a valid access token
-    And the header "x-correlator" is set to a UUID value
+    And the header "x-correlator" complies with the schema at "#/components/schemas/XCorrelator"
 
 ##########################
 # Happy path scenarios
