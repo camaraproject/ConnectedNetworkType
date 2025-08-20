@@ -1,4 +1,4 @@
-@Connected_Network_Type
+# connected-network-type
 Feature: CAMARA Connected Network Type API, vwip - Operation getConnectedNetworkType
   # Input to be provided by the implementation to the tester
   #
@@ -187,7 +187,7 @@ Feature: CAMARA Connected Network Type API, vwip - Operation getConnectedNetwork
 #################
 
   @connected_network_type_503_network_error
-   Scenario: Network error temporarily prevents the connected network type from being retrieved
+  Scenario: Network error temporarily prevents the connected network type from being retrieved
     # This test is for use by the API provider only
     Given a valid testing device supported by the service, identified by the token or provided in the request body
     And the request body is set to a valid request body
