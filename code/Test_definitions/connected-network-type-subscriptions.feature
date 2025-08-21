@@ -116,7 +116,7 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip
   @connected_network_type_subscriptions_04_retrieve_list_2legs
   Scenario: Check existing subscription(s) is/are retrieved in list using a 2-legged access token
     Given at least one subscription is existing for the API consumer making this request
-    And the header "Authorization" is set to a valid access token which does not identify any device 
+    And the header "Authorization" is set to a valid access token which does not identify any device
     When the request "retrieveConnectedNetworkTypeSubscriptionList" is sent
     Then the response status code is 200
     And the response header "Content-Type" is "application/json"
