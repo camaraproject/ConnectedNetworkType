@@ -1,5 +1,6 @@
-@Connected_Network_Type_Subscription
-Feature: CAMARA Connected Network Type Subscriptions API, vwip - Operations createConnectedNetworkTypeSubscription, retrieveConnectedNetworkTypeSubscriptionList, retrieveConnectedNetworkTypeSubscription and deleteConnectedNetworkTypeSubscription
+# connected-network-type-subscriptions
+Feature: CAMARA Connected Network Type Subscriptions API, vwip
+  # Operations createConnectedNetworkTypeSubscription, retrieveConnectedNetworkTypeSubscriptionList, retrieveConnectedNetworkTypeSubscription and deleteConnectedNetworkTypeSubscription
 
   # Input to be provided by the implementation to the tester
   #
@@ -38,8 +39,7 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip - Operations crea
     And the response body complies with the OAS schema at "#/components/schemas/Subscription"
     And the response properties "$.types", "$.protocol", "$.sink" and "$.config.subscriptionDetail.device.phoneNumber" are present with the values provided in the request
     And the response property "$.id" is present
-    And the response property "$.startsAt", if present, has a valid value with date-time format
-    And the response property "$.expiresAt", if present, has a valid value with date-time format
+    And the response properties "$.startsAt" and "$.expiresAt", if present, have a valid value with date-time format
     And the response property "$.status", if present, has the value "ACTIVATION_REQUESTED", "ACTIVE" or "INACTIVE"
 
     Examples:
@@ -61,8 +61,7 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip - Operations crea
     And the response body complies with the OAS schema at "#/components/schemas/Subscription"
     And the response properties "$.types", "$.protocol" and "$.sink" are present with the values provided in the request
     And the response property "$.id" is present
-    And the response property "$.startsAt", if present, has a valid value with date-time format
-    And the response property "$.expiresAt", if present, has a valid value with date-time format
+    And the response properties "$.startsAt" and "$.expiresAt", if present, have a valid value with date-time format
     And the response property "$.status", if present, has the value "ACTIVATION_REQUESTED", "ACTIVE" or "INACTIVE"
     And the response property "$.config.subscriptionDetail.device" is not present
 
@@ -91,7 +90,7 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip - Operations crea
   @connected_network_type_subscriptions_03.1_retrieve_by_id_2legs
   Scenario: Check existing subscription is retrieved by id with a 2-legged access token
     Given a subscription exists and has a subscriptionId equal to "id"
-    And the header "Authorization" is set to a valid access token which does not identify any device 
+    And the header "Authorization" is set to a valid access token which does not identify any device
     When the request "retrieveConnectedNetworkTypeSubscription" is sent
     And the path parameter "subscriptionId" is set to "id"
     Then the response status code is 200
@@ -115,7 +114,7 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip - Operations crea
     And the response property "$.config.subscriptionDetail.device" is not present
 
   @connected_network_type_subscriptions_04_retrieve_list_2legs
-  Scenario: Check existing subscription(s) is/are retrieved in list
+  Scenario: Check existing subscription(s) is/are retrieved in list using a 2-legged access token
     Given at least one subscription is existing for the API consumer making this request
     And the header "Authorization" is set to a valid access token which does not identify any device 
     When the request "retrieveConnectedNetworkTypeSubscriptionList" is sent
@@ -126,7 +125,7 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip - Operations crea
     And the response body lists all subscriptions belonging to the API consumer
 
   @connected_network_type_subscriptions_05_retrieve_list_3legs
-  Scenario: Check existing subscription(s) is/are retrieved in list
+  Scenario: Check existing subscription(s) is/are retrieved in list using a 3-legged access token
     Given the API consumer has at least one active subscription for the device
     And the header "Authorization" is set to a valid access token which identifies a valid device associated with one or more subscriptions
     When the request "retrieveConnectedNetworkTypeSubscriptionList" is sent
@@ -370,7 +369,7 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip - Operations crea
 ##################
 
   @connected_network_type_subscriptions_creation_401.1_no_authorization_header
-  Scenario: No Authorization header
+  Scenario: No Authorization header when creating subscription
     Given the request header "Authorization" is removed
     And the request body is compliant with the schema "#/components/schemas/SubscriptionRequest"
     When the request "createConnectedNetworkTypeSubscription" is sent
@@ -381,7 +380,7 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip - Operations crea
     And the response property "$.message" contains a user friendly text
 
   @connected_network_type_subscriptions_creation_401.2_expired_access_token
-  Scenario: Expired access token
+  Scenario: Expired access token when creating subscription
     Given the header "Authorization" is set to a previously valid but now expired access token
     And the request body is compliant with the schema "#/components/schemas/SubscriptionRequest"
     When the request "createConnectedNetworkTypeSubscription" is sent
@@ -392,7 +391,7 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip - Operations crea
     And the response property "$.message" contains a user friendly text
 
   @connected_network_type_subscriptions_creation_401.3_malformed_access_token
-  Scenario: Malformed access token
+  Scenario: Malformed access token when creating subscription
     Given the header "Authorization" is set to a malformed token
     And the request body is compliant with the schema "#/components/schemas/SubscriptionRequest"
     When the request "createConnectedNetworkTypeSubscription" is sent
@@ -403,7 +402,7 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip - Operations crea
     And the response property "$.message" contains a user friendly text
 
   @connected_network_type_subscriptions_retrieve_401.4_no_authorization_header
-  Scenario: No Authorization header
+  Scenario: No Authorization header when retrieving subscriptions
     Given the request header "Authorization" is removed
     When the request "retrieveConnectedNetworkTypeSubscription" is sent
     Then the response status code is 401
@@ -413,7 +412,7 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip - Operations crea
     And the response property "$.message" contains a user friendly text
 
   @connected_network_type_subscriptions_retrieve_401.5_expired_access_token
-  Scenario: Expired access token
+  Scenario: Expired access token when retrieving subscriptions
     Given the header "Authorization" is set to a previously valid but now expired access token
     When the request "retrieveConnectedNetworkTypeSubscription" is sent
     Then the response status code is 401
@@ -423,7 +422,7 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip - Operations crea
     And the response property "$.message" contains a user friendly text
 
   @connected_network_type_subscriptions_retrieve_401.6_malformed_access_token
-  Scenario: Malformed access token
+  Scenario: Malformed access token when retrieving subscriptions
     Given the header "Authorization" is set to a malformed token
     When the request "retrieveConnectedNetworkTypeSubscription" is sent
     Then the response status code is 401
@@ -433,7 +432,7 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip - Operations crea
     And the response property "$.message" contains a user friendly text
 
   @connected_network_type_subscriptions_delete_401.7_no_authorization_header
-  Scenario: No Authorization header
+  Scenario: No Authorization header when deleting subscription
     Given the request header "Authorization" is removed
     When the request "deleteConnectedNetworkTypeSubscription" is sent
     Then the response status code is 401
@@ -443,7 +442,7 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip - Operations crea
     And the response property "$.message" contains a user friendly text
 
   @connected_network_type_subscriptions_delete_401.8_expired_access_token
-  Scenario: Expired access token
+  Scenario: Expired access token when deleting subscription
     Given the header "Authorization" is set to a previously valid but now expired access token
     When the request "deleteConnectedNetworkTypeSubscription" is sent
     Then the response status code is 401
@@ -453,7 +452,7 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip - Operations crea
     And the response property "$.message" contains a user friendly text
 
   @connected_network_type_subscriptions_delete_401.9_malformed_access_token
-  Scenario: Malformed access token
+  Scenario: Malformed access token when deleting subscription
     Given the header "Authorization" is set to a malformed token
     When the request "deleteConnectedNetworkTypeSubscription" is sent
     Then the response status code is 401
@@ -463,7 +462,7 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip - Operations crea
     And the response property "$.message" contains a user friendly text
 
   @connected_network_type_subscriptions_retrieve_list_401.10_no_authorization_header
-  Scenario: No Authorization header
+  Scenario: No Authorization header when retrieving subscription list
     Given the request header "Authorization" is removed
     When the request "retrieveConnectedNetworkTypeSubscriptionList" is sent
     Then the response status code is 401
@@ -473,7 +472,7 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip - Operations crea
     And the response property "$.message" contains a user friendly text
 
   @connected_network_type_subscriptions_retrieve_list_401.11_expired_access_token
-  Scenario: Expired access token
+  Scenario: Expired access token when retrieving subscription list
     Given the header "Authorization" is set to a previously valid but now expired access token
     When the request "retrieveConnectedNetworkTypeSubscriptionList" is sent
     Then the response status code is 401
@@ -483,7 +482,7 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip - Operations crea
     And the response property "$.message" contains a user friendly text
 
   @connected_network_type_subscriptions_retrieve_list_401.12_malformed_access_token
-  Scenario: Malformed access token
+  Scenario: Malformed access token when retrieving subscription list
     Given the header "Authorization" is set to a malformed token
     When the request "retrieveConnectedNetworkTypeSubscriptionList" is sent
     Then the response status code is 401
@@ -499,7 +498,7 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip - Operations crea
   @connected_network_type_subscriptions_create_403.1_permission_denied
   Scenario: subscription creation without having the required scope
     # To test this, a token must not have the required scope
-    Given the header "Authorization" set to an access token not including scope "connected-network-type-subscriptions:org.camaraproject.connected-network-type-subscriptions.v0.network-type-changed:create"
+    Given the access token does not include scope "connected-network-type-subscriptions:org.camaraproject.connected-network-type-subscriptions.v0.network-type-changed:create"
     And the request body is compliant with the schema "#/components/schemas/SubscriptionRequest"
     And the request body property "$.types" is equal to "org.camaraproject.connected-network-type-subscriptions.v0.network-type-changed"
     When the request "createConnectedNetworkTypeSubscription" is sent
@@ -511,7 +510,7 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip - Operations crea
   @connected_network_type_subscriptions_create_403.2_subscription_mismatch_for_requested_events_subscription
   Scenario: Subscription creation with invalid access token for requested events subscription
     # Note - currently "org.camaraproject.connected-network-type-subscriptions.v0.network-type-changed" is the only valid subscription type for this API
-    Given the header "Authorization" set to an access token that includes only a single subscription scope
+    Given the access token includes only a single subscription scope
     And the request body is compliant with the schema "#/components/schemas/SubscriptionRequest"
     And the request body property "$.types" is equal to a valid type other than the event corresponding to the access token scope
     When the request "createConnectedNetworkTypeSubscription" is sent
