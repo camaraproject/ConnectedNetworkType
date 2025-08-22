@@ -29,11 +29,11 @@ The latest public release of the ConnectedNetworkType repository is available [h
 
   * **connected-network-type v0.2.0**  
   [[YAML]](https://github.com/camaraproject/ConnectedNetworkType/blob/r1.2/code/API_definitions/connected-network-type.yaml)
-  [[View it on ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectedNetworkType/r1.2/code/API_definitions/connected-network-type&nocors)
+  [[View it on ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectedNetworkType/r1.2/code/API_definitions/connected-network-type.yaml&nocors)
   [[View it on Swagger Editor]](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/ConnectedNetworkType/r1.2/code/API_definitions/connected-network-type.yaml)
   * **connected-network-type-subscriptions v0.2.0**  
   [[YAML]](https://github.com/camaraproject/ConnectedNetworkType/blob/r1.2/code/API_definitions/connected-network-type-subscriptions.yaml)
-  [[View it on ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectedNetworkType/r1.2/code/API_definitions/connected-network-type-subscriptions&nocors)
+  [[View it on ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectedNetworkType/r1.2/code/API_definitions/connected-network-type-subscriptions.yaml&nocors)
   [[View it on Swagger Editor]](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/ConnectedNetworkType/r1.2/code/API_definitions/connected-network-type-subscriptions.yaml)
 
 Pre-releases of this sub project are available [here](https://github.com/camaraproject/ConnectedNetworkType/releases). For changes see the [change log](https://github.com/camaraproject/ConnectedNetworkType/blob/main/CHANGELOG.md).
