@@ -385,22 +385,21 @@ components:
 
   schemas:
     ErrorInfo:
-      description: The error info object for possible error cases
       type: object
       required:
+        - message
         - status
         - code
-        - message
       properties:
+        message:
+          type: string
+          description: A human-readable description of what the event represents
         status:
           type: integer
           description: HTTP response status code
         code:
           type: string
-          description: Code given to this error
-        message:
-          type: string
-          description: Detailed error description
+          description: A human-readable code to describe the error
 
     SubscriptionRequest:
       description: The request for creating a event-type event subscription
