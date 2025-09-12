@@ -163,7 +163,7 @@ paths:
               summary: "notifications callback"
               description: |
                 Important: this endpoint is to be implemented by the API consumer.
-                The Device status server will call this endpoint whenever the connected network type of the device changes.
+                The connectivity network type status server will call this endpoint whenever the connected network type of the device changes.
               operationId: postNotification
               parameters:
                 - $ref: "#/components/parameters/x-correlator"
