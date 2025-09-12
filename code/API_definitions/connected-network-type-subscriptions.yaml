@@ -463,16 +463,16 @@ components:
           type: string
           format: date-time
           example: 2023-01-17T13:18:23.682Z
-          description: The subscription expiration time (in date-time format) requested by the API consumer. Up to API project decision to keep it.
+          description: The subscription expiration time (in date-time format) requested by the API consumer.
         subscriptionMaxEvents:
           type: integer
-          description: Identifies the maximum number of event reports to be generated (>=1) requested by the API consumer - Once this number is reached, the subscription ends. Up to API project decision to keep it.
+          description: Identifies the maximum number of event reports to be generated (>=1) requested by the API consumer - Once this number is reached, the subscription ends.
           minimum: 1
           example: 5
         initialEvent:
           type: boolean
           description: |
-            Set to `true` by API consumer if consumer wants to get an event as soon as the subscription is created and current situation reflects event request.Up to API project decision to keep it.
+            Set to `true` by API consumer if consumer wants to get an event as soon as the subscription is created and current situation reflects event request.
             Example: Consumer request area entered event. If consumer sets initialEvent to true and device is already in the geofence, an event is triggered
 
     SinkCredential:
