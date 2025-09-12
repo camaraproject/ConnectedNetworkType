@@ -9,6 +9,7 @@ Feature: CAMARA Connected Network Type API, v0.2.0 - Operation getConnectedNetwo
   # * A device object where the tester can select between multiple network types.
   # * (optional: Additional devices object which supports 2G, 3G, 4G and/or 5G)
   # * The known connected Generation of Mobile Communication Technology.
+  # * apiRoot: API root of the server URL
   #
   # References to OAS spec schemas refer to schemas specifies in connected-network-type.yaml
 
