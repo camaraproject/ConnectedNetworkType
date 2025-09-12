@@ -22,7 +22,7 @@ info:
        - `3G`: if device is connected to the 3G network technology (alternative indicators such as "H" or "H+" may be displayed on the device)
        - `4G`: if device is connected to the 4G network technology (alternative indicators such as "LTE" or "LTE+" may be displayed on the device)
        - `5G`: if device is connected to the 5G network technology
-       - `UNKNOWN`: if connection [technology] can not be determined
+       - `UNKNOWN`: if connection technology can not be determined
 
     # API Functionality
 
