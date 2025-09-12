@@ -16,7 +16,8 @@ Feature: CAMARA Connected Network Type Subscriptions API, v0.2.0
   # References to OAS spec schemas refer to schemas specifies in connected-network-type-subscriptions.yaml
 
   Background: Connected Network Type Subscriptions setup
-    Given the resource "{apiroot}/connected-network-type-subscriptions/v0.2" as base-url
+    Given an environment at "apiRoot"
+    And the resource "/connected-network-type-subscriptions/v0.2"
     And the header "Authorization" is set to a valid access token
     And the header "x-correlator" complies with the schema at "#/components/schemas/XCorrelator"
 
