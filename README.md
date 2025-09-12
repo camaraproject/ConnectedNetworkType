@@ -25,7 +25,7 @@ Sandbox API Repository to describe, develop, document, and test the ConnectedNet
 
 ## Release Information
 
-The latest public release of the ConnectedNetworkType repository is available [here](https://github.com/camaraproject/ConnectedNetworkType/releases/latest)
+**NEW: the latest public release of the ConnectedNetworkType repository is available [here](https://github.com/camaraproject/ConnectedNetworkType/releases/latest), with the following API versions:**
 
   * **connected-network-type v0.2.0**  
   [[YAML]](https://github.com/camaraproject/ConnectedNetworkType/blob/r1.2/code/API_definitions/connected-network-type.yaml)
