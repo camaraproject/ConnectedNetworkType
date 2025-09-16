@@ -1,5 +1,5 @@
 # connected-network-type
-Feature: CAMARA Connected Network Type API, vwip - Operation getConnectedNetworkType
+Feature: CAMARA Connected Network Type API, v0.2.0 - Operation getConnectedNetworkType
   # Input to be provided by the implementation to the tester
   #
   # Implementation indications:
@@ -9,11 +9,13 @@ Feature: CAMARA Connected Network Type API, vwip - Operation getConnectedNetwork
   # * A device object where the tester can select between multiple network types.
   # * (optional: Additional devices object which supports 2G, 3G, 4G and/or 5G)
   # * The known connected Generation of Mobile Communication Technology.
+  # * apiRoot: API root of the server URL
   #
   # References to OAS spec schemas refer to schemas specifies in connected-network-type.yaml
 
   Background: Common Connected Network Type setup
-    Given the resource "{api-root}/connected-network-type/vwip/retrieve" set as base-url
+    Given an environment at "apiRoot"
+    And the resource "/connected-network-type/v0.2/retrieve"
     And the header "Content-Type" is set to "application/json"
     And the header "Authorization" is set to a valid access token
     And the header "x-correlator" complies with the schema at "#/components/schemas/XCorrelator"

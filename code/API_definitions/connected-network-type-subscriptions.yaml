@@ -22,7 +22,7 @@ info:
        - `3G`: if device is connected to the 3G network technology (alternative indicators such as "H" or "H+" may be displayed on the device)
        - `4G`: if device is connected to the 4G network technology (alternative indicators such as "LTE" or "LTE+" may be displayed on the device)
        - `5G`: if device is connected to the 5G network technology
-       - `UNKNOWN`: if connection [technology] can not be determined
+       - `UNKNOWN`: if connection technology can not be determined
 
     # API Functionality
 
@@ -116,14 +116,14 @@ info:
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
-  version: wip
+  version: 0.2.0
   x-camara-commonalities: 0.6
 externalDocs:
   description: Product documentation at Camara
-  url: https://github.com/camaraproject/DeviceStatus
+  url: https://github.com/camaraproject/ConnectedNetworkType
 
 servers:
-  - url: "{apiRoot}/connected-network-type-subscriptions/vwip"
+  - url: "{apiRoot}/connected-network-type-subscriptions/v0.2"
     variables:
       apiRoot:
         default: http://localhost:9091
@@ -163,7 +163,7 @@ paths:
               summary: "notifications callback"
               description: |
                 Important: this endpoint is to be implemented by the API consumer.
-                The Device status server will call this endpoint whenever the connected network type of the device changes.
+                The connectivity network type status server will call this endpoint whenever the connected network type of the device changes.
               operationId: postNotification
               parameters:
                 - $ref: "#/components/parameters/x-correlator"
@@ -423,7 +423,7 @@ components:
         types:
           description: |
             Camara Event types eligible to be delivered by this subscription.
-            Note: For the current Commonalities API design guidelines, only one event type per subscription is allowed, yet in the following releases use of array of event types SHALL be specified without changing this definition.
+            Note: As of now we enforce to have only event type per subscription.
           type: array
           minItems: 1
           maxItems: 1
@@ -463,16 +463,16 @@ components:
           type: string
           format: date-time
           example: 2023-01-17T13:18:23.682Z
-          description: The subscription expiration time (in date-time format) requested by the API consumer. Up to API project decision to keep it.
+          description: The subscription expiration time (in date-time format) requested by the API consumer.
         subscriptionMaxEvents:
           type: integer
-          description: Identifies the maximum number of event reports to be generated (>=1) requested by the API consumer - Once this number is reached, the subscription ends. Up to API project decision to keep it.
+          description: Identifies the maximum number of event reports to be generated (>=1) requested by the API consumer - Once this number is reached, the subscription ends.
           minimum: 1
           example: 5
         initialEvent:
           type: boolean
           description: |
-            Set to `true` by API consumer if consumer wants to get an event as soon as the subscription is created and current situation reflects event request.Up to API project decision to keep it.
+            Set to `true` by API consumer if consumer wants to get an event as soon as the subscription is created and current situation reflects event request.
             Example: Consumer request area entered event. If consumer sets initialEvent to true and device is already in the geofence, an event is triggered
 
     SinkCredential:
@@ -726,7 +726,7 @@ components:
 
     SubscriptionId:
       type: string
-      description: The unique identifier of the subscription in the scope of the subscription manager. When this information is contained within an event notification, this concept SHALL be referred as `subscriptionId` as per [Commonalities Event Notification Model](https://github.com/camaraproject/Commonalities/blob/r2.3/documentation/API-design-guidelines.md#122-event-notification).
+      description: The unique identifier of the subscription in the scope of the subscription manager. When this information is contained within an event notification, this concept SHALL be referred as subscriptionId as per Commonalities Event Notification Model.
       example: qs15-h556-rt89-1298
 
     Device:
