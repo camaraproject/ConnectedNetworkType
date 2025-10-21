@@ -1,5 +1,5 @@
 # connected-network-type-subscriptions
-Feature: CAMARA Connected Network Type Subscriptions API, v0.2.0
+Feature: CAMARA Connected Network Type Subscriptions API, vwip
   # Operations createConnectedNetworkTypeSubscription, retrieveConnectedNetworkTypeSubscriptionList, retrieveConnectedNetworkTypeSubscription and deleteConnectedNetworkTypeSubscription
 
   # Input to be provided by the implementation to the tester
@@ -18,7 +18,7 @@ Feature: CAMARA Connected Network Type Subscriptions API, v0.2.0
 
   Background: Connected Network Type Subscriptions setup
     Given an environment at "apiRoot"
-    And the resource "/connected-network-type-subscriptions/v0.2"
+    And the resource "/connected-network-type-subscriptions/vwip"
     And the header "Authorization" is set to a valid access token
     And the header "x-correlator" complies with the schema at "#/components/schemas/XCorrelator"
 
