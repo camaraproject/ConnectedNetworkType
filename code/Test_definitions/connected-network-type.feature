@@ -1,5 +1,5 @@
 # connected-network-type
-Feature: CAMARA Connected Network Type API, v0.2.0 - Operation getConnectedNetworkType
+Feature: CAMARA Connected Network Type API, vwip - Operation getConnectedNetworkType
   # Input to be provided by the implementation to the tester
   #
   # Implementation indications:
@@ -15,7 +15,7 @@ Feature: CAMARA Connected Network Type API, v0.2.0 - Operation getConnectedNetwo
 
   Background: Common Connected Network Type setup
     Given an environment at "apiRoot"
-    And the resource "/connected-network-type/v0.2/retrieve"
+    And the resource "/connected-network-type/vwip/retrieve"
     And the header "Content-Type" is set to "application/json"
     And the header "Authorization" is set to a valid access token
     And the header "x-correlator" complies with the schema at "#/components/schemas/XCorrelator"
