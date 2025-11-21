@@ -181,9 +181,8 @@ components:
   schemas:
     LastStatusTime:
       description: |
-        Last time that the associated device reachability status was updated.
+        The last time that the connected network type status was confirmed to be correct by the API provider. The status should still be valid, but the API provider is unable to confirm this.
         It must follow [RFC 3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) and must have time zone.
-        Recommended format is yyyy-MM-dd'T'HH:mm:ss.SSSZ (i.e. which allows 2023-07-03T14:27:08.312+02:00 or 2023-07-03T12:27:08.312Z)
       type: string
       format: date-time
       example: "2024-02-20T10:41:38.657Z"
