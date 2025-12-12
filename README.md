@@ -23,20 +23,29 @@ Sandbox API Repository to describe, develop, document, and test the ConnectedNet
 * Started: June 2024 (within [DeviceStatus](https://github.com/camaraproject/DeviceStatus) repository)
 <!-- * Incubating stage since: {{incubation date}} --> 
 
+<!-- CAMARA:RELEASE-INFO:START -->
+<!-- The following section is automatically maintained by the CAMARA project-administration tooling: https://github.com/camaraproject/project-administration -->
+
 ## Release Information
 
-**NEW: the latest public release of the ConnectedNetworkType repository is available [here](https://github.com/camaraproject/ConnectedNetworkType/releases/latest), with the following API versions:**
+> [!NOTE]
+> Please be aware that the project will have frequent updates to the main branch. There are no compatibility guarantees associated with code in any branch, including main, until a new release is created. For example, changes may be reverted before a release is created. **For best results, use the latest available release**.
 
-  * **connected-network-type v0.2.0**  
-  [[YAML]](https://github.com/camaraproject/ConnectedNetworkType/blob/r1.2/code/API_definitions/connected-network-type.yaml)
-  [[View it on ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectedNetworkType/r1.2/code/API_definitions/connected-network-type.yaml&nocors)
-  [[View it on Swagger Editor]](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/ConnectedNetworkType/r1.2/code/API_definitions/connected-network-type.yaml)
-  * **connected-network-type-subscriptions v0.2.0**  
+* **NEW**: The latest public release is [r1.2](https://github.com/camaraproject/ConnectedNetworkType/releases/tag/r1.2) (Fall25), with the following API versions:
+  * **connected-network-type-subscriptions v0.2.0**
   [[YAML]](https://github.com/camaraproject/ConnectedNetworkType/blob/r1.2/code/API_definitions/connected-network-type-subscriptions.yaml)
-  [[View it on ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectedNetworkType/r1.2/code/API_definitions/connected-network-type-subscriptions.yaml&nocors)
-  [[View it on Swagger Editor]](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/ConnectedNetworkType/r1.2/code/API_definitions/connected-network-type-subscriptions.yaml)
+  [[ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectedNetworkType/r1.2/code/API_definitions/connected-network-type-subscriptions.yaml&nocors)
+  [[Swagger]](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/ConnectedNetworkType/r1.2/code/API_definitions/connected-network-type-subscriptions.yaml)
+  * **connected-network-type v0.2.0**
+  [[YAML]](https://github.com/camaraproject/ConnectedNetworkType/blob/r1.2/code/API_definitions/connected-network-type.yaml)
+  [[ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectedNetworkType/r1.2/code/API_definitions/connected-network-type.yaml&nocors)
+  [[Swagger]](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/ConnectedNetworkType/r1.2/code/API_definitions/connected-network-type.yaml)
+* The latest public release is always available here: https://github.com/camaraproject/ConnectedNetworkType/releases/latest
+* Other releases of this repository are available in https://github.com/camaraproject/ConnectedNetworkType/releases
+* For changes see [CHANGELOG.md](https://github.com/camaraproject/ConnectedNetworkType/blob/main/CHANGELOG.md)
 
-Pre-releases of this sub project are available [here](https://github.com/camaraproject/ConnectedNetworkType/releases). For changes see the [change log](https://github.com/camaraproject/ConnectedNetworkType/blob/main/CHANGELOG.md).
+_The above section is automatically synchronized by CAMARA project-administration._
+<!-- CAMARA:RELEASE-INFO:END -->
 
 ## Contributing
 
