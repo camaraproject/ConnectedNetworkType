@@ -117,7 +117,8 @@ info:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
   version: wip
-  x-camara-commonalities: 0.6
+  x-camara-commonalities: wip
+
 externalDocs:
   description: Product documentation at Camara
   url: https://github.com/camaraproject/ConnectedNetworkType
@@ -127,7 +128,7 @@ servers:
     variables:
       apiRoot:
         default: http://localhost:9091
-        description: API root, defined by the service provider, e.g. api.example.com or api.example.com/somepath
+        description: API root, defined by the service provider, e.g. `api.example.com` or `api.example.com/somepath`
 
 tags:
   - name: Connected Network Type Subscription
@@ -142,7 +143,7 @@ paths:
       description: Create a subscription for receiving notifications on changes to the connected network type of a device.
       operationId: createConnectedNetworkTypeSubscription
       parameters:
-        - $ref: "#/components/parameters/x-correlator"
+        - $ref: "../common/CAMARA_common.yaml#/components/parameters/x-correlator"
       security:
         - openId:
             - connected-network-type-subscriptions:org.camaraproject.connected-network-type-subscriptions.v0.network-type-changed:create
@@ -166,13 +167,13 @@ paths:
                 The connectivity network type status server will call this endpoint whenever the connected network type of the device changes.
               operationId: postNotification
               parameters:
-                - $ref: "#/components/parameters/x-correlator"
+                - $ref: "../common/CAMARA_common.yaml#/components/parameters/x-correlator"
               requestBody:
                 required: true
                 content:
                   application/cloudevents+json:
                     schema:
-                      $ref: "#/components/schemas/CloudEvent"
+                      $ref: "#/components/schemas/NotificationEvent"
                     examples:
                       network-type-changed:
                         $ref: "#/components/examples/NETWORK_TYPE_CHANGED"
@@ -187,17 +188,17 @@ paths:
                   description: Successful notification
                   headers:
                     x-correlator:
-                      $ref: "#/components/headers/x-correlator"
+                      $ref: "../common/CAMARA_common.yaml#/components/headers/x-correlator"
                 "400":
-                  $ref: "#/components/responses/Generic400"
+                  $ref: "../common/CAMARA_common.yaml#/components/responses/Generic400"
                 "401":
-                  $ref: "#/components/responses/Generic401"
+                  $ref: "../common/CAMARA_common.yaml#/components/responses/Generic401"
                 "403":
-                  $ref: "#/components/responses/Generic403"
+                  $ref: "../common/CAMARA_common.yaml#/components/responses/Generic403"
                 "410":
-                  $ref: "#/components/responses/Generic410"
+                  $ref: "../common/CAMARA_common.yaml#/components/responses/Generic410"
                 "429":
-                  $ref: "#/components/responses/Generic429"
+                  $ref: "../common/CAMARA_common.yaml#/components/responses/Generic429"
               security:
                 - {}
                 - notificationsBearerAuth: []
@@ -207,37 +208,37 @@ paths:
           description: Created (Successful creation of subscription)
           headers:
             x-correlator:
-              $ref: "#/components/headers/x-correlator"
+              $ref: "../common/CAMARA_common.yaml#/components/headers/x-correlator"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Subscription"
               examples:
-                Active Subscription:
+                active-subscription:
                   $ref: "#/components/examples/ACTIVE_SUBSCRIPTION"
-                Active Subscription With Device Identifier:
+                active-subscription-with-device-identifier:
                   $ref: "#/components/examples/ACTIVE_SUBSCRIPTION_WITH_DEVICE_IDENTIFIER"
         "202":
           description: Request accepted to be processed. It applies for async creation process.
           headers:
             x-correlator:
-              $ref: "#/components/headers/x-correlator"
+              $ref: "../common/CAMARA_common.yaml#/components/headers/x-correlator"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/SubscriptionAsync"
         "400":
-          $ref: "#/components/responses/CreateSubscriptionBadRequest400"
+          $ref: "../common/CAMARA_event_common.yaml#/components/responses/CreateSubscriptionBadRequest400"
         "401":
-          $ref: "#/components/responses/Generic401"
+          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic401"
         "403":
-          $ref: "#/components/responses/SubscriptionPermissionDenied403"
+          $ref: "../common/CAMARA_event_common.yaml#/components/responses/SubscriptionPermissionDenied403"
         "409":
-          $ref: "#/components/responses/Generic409"
+          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic409"
         "422":
-          $ref: "#/components/responses/CreateSubscriptionUnprocessableEntity422"
+          $ref: "../common/CAMARA_event_common.yaml#/components/responses/CreateSubscriptionUnprocessableEntity422"
         "429":
-          $ref: "#/components/responses/Generic429"
+          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic429"
 
     get:
       tags:
@@ -246,7 +247,9 @@ paths:
       description: Retrieve a list of device connected network type event subscription(s)
       operationId: retrieveConnectedNetworkTypeSubscriptionList
       parameters:
-        - $ref: "#/components/parameters/x-correlator"
+        - $ref: "../common/CAMARA_common.yaml#/components/parameters/x-correlator"
+        - $ref: "../common/CAMARA_common.yaml#/components/parameters/page"
+        - $ref: "../common/CAMARA_common.yaml#/components/parameters/perPage"
       security:
         - openId:
             - connected-network-type-subscriptions:read
@@ -255,25 +258,29 @@ paths:
           description: List of event subscription details
           headers:
             x-correlator:
-              $ref: "#/components/headers/x-correlator"
+              $ref: "../common/CAMARA_common.yaml#/components/headers/x-correlator"
+            X-Total-Count:
+              $ref: "../common/CAMARA_common.yaml#/components/headers/x-total-count"
+            X-Total-Pages:
+              $ref: "../common/CAMARA_common.yaml#/components/headers/x-total-pages"
+            Link:
+              $ref: "../common/CAMARA_common.yaml#/components/headers/link"
           content:
             application/json:
               schema:
-                type: array
-                minItems: 0
-                items:
-                  $ref: '#/components/schemas/Subscription'
+                $ref: "#/components/schemas/SubscriptionList"
               examples:
-                List of Subscriptions:
+                list-of-subscriptions:
                   $ref: "#/components/examples/SUBSCRIPTION_LIST"
-                Empty List of Subscriptions:
+                empty-list-of-subscriptions:
                   $ref: "#/components/examples/EMPTY_SUBSCRIPTION_LIST"
         "400":
-          $ref: "#/components/responses/Generic400"
+          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic400"
         "401":
-          $ref: "#/components/responses/Generic401"
+          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic401"
         "403":
-          $ref: "#/components/responses/Generic403"
+          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic403"
+
   /subscriptions/{subscriptionId}:
     get:
       tags:
@@ -286,34 +293,34 @@ paths:
             - connected-network-type-subscriptions:read
       parameters:
         - $ref: "#/components/parameters/SubscriptionId"
-        - $ref: "#/components/parameters/x-correlator"
+        - $ref: "../common/CAMARA_common.yaml#/components/parameters/x-correlator"
       responses:
         "200":
           description: OK
           headers:
             x-correlator:
-              $ref: "#/components/headers/x-correlator"
+              $ref: "../common/CAMARA_common.yaml#/components/headers/x-correlator"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Subscription"
               examples:
-                Active Subscription:
+                active-subscription:
                   $ref: "#/components/examples/ACTIVE_SUBSCRIPTION"
-                Active Subscription With Device Identifier:
+                active-subscription-with-device-identifier:
                   $ref: "#/components/examples/ACTIVE_SUBSCRIPTION_WITH_DEVICE_IDENTIFIER"
-                Subscription Activation Requested:
+                subscription-activation-requested:
                   $ref: "#/components/examples/SUBSCRIPTION_ACTIVATION_REQUESTED"
-                Subscription Deleted:
+                subscription-deleted:
                   $ref: "#/components/examples/SUBSCRIPTION_DELETED"
         "400":
-          $ref: "#/components/responses/SubscriptionIdRequired400"
+          $ref: "../common/CAMARA_event_common.yaml#/components/responses/SubscriptionIdRequired400"
         "401":
-          $ref: "#/components/responses/Generic401"
+          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic401"
         "403":
-          $ref: "#/components/responses/Generic403"
+          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic403"
         "404":
-          $ref: "#/components/responses/Generic404"
+          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic404"
 
     delete:
       tags:
@@ -326,41 +333,37 @@ paths:
             - connected-network-type-subscriptions:delete
       parameters:
         - $ref: "#/components/parameters/SubscriptionId"
-        - $ref: "#/components/parameters/x-correlator"
+        - $ref: "../common/CAMARA_common.yaml#/components/parameters/x-correlator"
       responses:
         "204":
           description: ConnectedNetworkType subscription deleted
           headers:
             x-correlator:
-              $ref: "#/components/headers/x-correlator"
+              $ref: "../common/CAMARA_common.yaml#/components/headers/x-correlator"
         "202":
           description: Request accepted to be processed. It applies for async deletion process.
           headers:
             x-correlator:
-              $ref: "#/components/headers/x-correlator"
+              $ref: "../common/CAMARA_common.yaml#/components/headers/x-correlator"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/SubscriptionAsync"
         "400":
-          $ref: "#/components/responses/SubscriptionIdRequired400"
+          $ref: "../common/CAMARA_event_common.yaml#/components/responses/SubscriptionIdRequired400"
         "401":
-          $ref: "#/components/responses/Generic401"
+          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic401"
         "403":
-          $ref: "#/components/responses/Generic403"
+          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic403"
         "404":
-          $ref: "#/components/responses/Generic404"
+          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic404"
 
 components:
-
   securitySchemes:
     openId:
-      type: openIdConnect
-      openIdConnectUrl: https://example.com/.well-known/openid-configuration
+      $ref: "../common/CAMARA_common.yaml#/components/securitySchemes/openId"
     notificationsBearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: "{$request.body#/sinkCredential.credentialType}"
+      $ref: "../common/CAMARA_event_common.yaml#/components/securitySchemes/notificationsBearerAuth"
 
   parameters:
     SubscriptionId:
@@ -370,37 +373,8 @@ components:
       required: true
       schema:
         $ref: "#/components/schemas/SubscriptionId"
-    x-correlator:
-      name: x-correlator
-      in: header
-      description: Correlation id for the different services
-      schema:
-        $ref: "#/components/schemas/XCorrelator"
-
-  headers:
-    x-correlator:
-      description: Correlation id for the different services
-      schema:
-        $ref: "#/components/schemas/XCorrelator"
 
   schemas:
-    ErrorInfo:
-      type: object
-      required:
-        - status
-        - code
-        - message
-      properties:
-        status:
-          type: integer
-          description: HTTP response status code
-        code:
-          type: string
-          description: A human-readable code to describe the error
-        message:
-          type: string
-          description: A human-readable description of what the event represents
-
     SubscriptionRequest:
       description: The request for creating a event-type event subscription
       type: object
