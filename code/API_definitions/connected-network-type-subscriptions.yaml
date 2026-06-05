@@ -843,20 +843,32 @@ components:
     SUBSCRIPTION_LIST:
       description: A list of API consumer subscriptions. If a 3-legged access token is used, the list is specific to the device associated with that token.
       value:
-        - id: 550e8400-e29b-41d4-a716-446655440000
-          sink: https://endpoint.example.com/sink
-          protocol: HTTP
-          types:
-            - "org.camaraproject.connected-network-type-subscriptions.v0.network-type-changed"
-          config:
-            subscriptionDetail: {}
-            subscriptionExpireTime: "2024-07-17T13:18:23.682Z"
-            subscriptionMaxEvents: 5
-            initialEvent: true
-          startsAt: "2024-07-03T21:12:02.871Z"
-          expiresAt: "2024-07-03T21:12:02.871Z"
-          status: ACTIVE
+        subscriptions:
+          - id: 550e8400-e29b-41d4-a716-446655440000
+            sink: https://endpoint.example.com/sink
+            protocol: HTTP
+            types:
+              - "org.camaraproject.connected-network-type-subscriptions.v0.network-type-changed"
+            config:
+              subscriptionDetail: {}
+              subscriptionExpireTime: "2024-07-17T13:18:23.682Z"
+              subscriptionMaxEvents: 5
+              initialEvent: true
+            startsAt: "2024-07-03T21:12:02.871Z"
+            expiresAt: "2024-07-03T21:12:02.871Z"
+            status: ACTIVE
+        pagination:
+          page: 1
+          perPage: 1
+          totalCount: 1
+          totalPages: 1
 
     EMPTY_SUBSCRIPTION_LIST:
       description: The API consumer either has no subscriptions or, if a 3-legged access token is used, has none for the device associated with that token.
-      value: []
+      value:
+        subscriptions: []
+        pagination:
+          page: 1
+          perPage: 1
+          totalCount: 0
+          totalPages: 1
