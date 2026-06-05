@@ -183,6 +183,7 @@ components:
         - $ref: "../common/CAMARA_common.yaml#/components/schemas/DateTime"
 
     ConnectedNetworkTypeResponse:
+      description: Definition of the data that can be returned in the response body
       type: object
       required:
         - lastStatusTime
@@ -212,6 +213,7 @@ components:
         - UNKNOWN
 
     ConnectedNetworkTypeRequest:
+      description: Definition of data that can be included in the request body
       type: object
       properties:
         device:
