@@ -172,7 +172,7 @@ components:
         The last time that the connected network type status was confirmed to be correct by the API provider. The status should still be valid, but the API provider is unable to confirm this.
         It must follow [RFC 3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) and must have time zone.
       allOf:
-        $ref: "../common/CAMARA_common.yaml#/components/schemas/DateTime"
+        - $ref: "../common/CAMARA_common.yaml#/components/schemas/DateTime"
 
     ConnectedNetworkTypeResponse:
       type: object
