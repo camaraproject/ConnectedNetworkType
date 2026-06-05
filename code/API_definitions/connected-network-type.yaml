@@ -34,7 +34,7 @@ info:
     ## Connected Network Type
 
     The endpoint `POST /retrieve` allows to get connected Network Type.
-    
+
     <!-- CAMARA:MANDATORY:authorization-and-authentication:BEGIN -->
     # Authorization and authentication
 
