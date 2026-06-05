@@ -447,11 +447,7 @@ components:
         protocol:
           $ref: "../common/CAMARA_event_common.yaml#/components/schemas/Protocol"
         sink:
-          type: string
-          format: uri
-          pattern: ^https:\/\/.+$
-          description: The address to which events shall be delivered using the selected protocol.
-          example: "https://endpoint.example.com/sink"
+          $ref: "../common/CAMARA_event_common.yaml#/components/schemas/Sink"
         sinkCredential:
           $ref: "../common/CAMARA_event_common.yaml#/components/schemas/SinkCredential"
         types:
@@ -525,11 +521,7 @@ components:
         protocol:
           $ref: "../common/CAMARA_event_common.yaml#/components/schemas/Protocol"
         sink:
-          type: string
-          format: uri
-          pattern: ^https:\/\/.+$
-          description: The address to which events shall be delivered using the selected protocol.
-          example: "https://endpoint.example.com/sink"
+          $ref: "../common/CAMARA_event_common.yaml#/components/schemas/Sink"
         sinkCredential:
           $ref: "../common/CAMARA_event_common.yaml#/components/schemas/SinkCredential"
         types:
