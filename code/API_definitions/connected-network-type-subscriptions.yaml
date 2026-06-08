@@ -602,6 +602,16 @@ components:
         - org.camaraproject.connected-network-type-subscriptions.v0.subscription-updated
         - org.camaraproject.connected-network-type-subscriptions.v0.subscription-ended
 
+    ConnectedNetworkType:
+      type: string
+      description: Network Type is intended to provide insight to connected network's capabilities from standards perspective. Actual network capabilities may differ based on implementation and MUST be checked with the connected network provider.
+      enum:
+        - 2G
+        - 3G
+        - 4G
+        - 5G
+        - UNKNOWN
+
     EventNetworkTypeChange:
       description: event structure for network type change
       allOf:
@@ -625,16 +635,6 @@ components:
         subscriptionId:
           $ref: "../common/CAMARA_event_common.yaml#/components/schemas/SubscriptionId"
 
-    ConnectedNetworkType:
-      type: string
-      description: Network Type is intended to provide insight to connected network's capabilities from standards perspective. Actual network capabilities may differ based on implementation and MUST be checked with the connected network provider.
-      enum:
-        - 2G
-        - 3G
-        - 4G
-        - 5G
-        - UNKNOWN
-
     EventSubscriptionStarted:
       description: event structure for event subscription started
       allOf:
@@ -642,7 +642,12 @@ components:
         - type: object
           properties:
             data:
-              $ref: "../common/CAMARA_event_common.yaml#/components/schemas/SubscriptionStarted"
+              allOf:
+                - type: object
+                  properties:
+                    device:
+                      $ref: "../common/CAMARA_common.yaml#/components/schemas/DeviceResponse"
+                - $ref: "../common/CAMARA_event_common.yaml#/components/schemas/SubscriptionStarted"
 
     EventSubscriptionUpdated:
       description: event structure for event subscription updated
@@ -651,7 +656,12 @@ components:
         - type: object
           properties:
             data:
-              $ref: "../common/CAMARA_event_common.yaml#/components/schemas/SubscriptionUpdated"
+              allOf:
+                - type: object
+                  properties:
+                    device:
+                      $ref: "../common/CAMARA_common.yaml#/components/schemas/DeviceResponse"
+                - $ref: "../common/CAMARA_event_common.yaml#/components/schemas/SubscriptionUpdated"
 
     EventSubscriptionEnded:
       description: event structure for event subscription ended
@@ -660,7 +670,12 @@ components:
         - type: object
           properties:
             data:
-              $ref: "../common/CAMARA_event_common.yaml#/components/schemas/SubscriptionEnded"
+              allOf:
+                - type: object
+                  properties:
+                    device:
+                      $ref: "../common/CAMARA_common.yaml#/components/schemas/DeviceResponse"
+                - $ref: "../common/CAMARA_event_common.yaml#/components/schemas/SubscriptionEnded"
 
     Sink:
       description: The address to which events shall be delivered using the selected protocol.
