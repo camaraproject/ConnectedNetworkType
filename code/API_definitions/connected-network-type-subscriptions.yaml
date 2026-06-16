@@ -448,6 +448,8 @@ components:
           $ref: "../common/CAMARA_event_common.yaml#/components/schemas/Protocol"
         sink:
           $ref: "#/components/schemas/Sink"
+        sinkCredential:
+          $ref: "../common/CAMARA_event_common.yaml#/components/schemas/SinkCredential"
         types:
           description: |
             Camara Event types eligible to be delivered by this subscription.
