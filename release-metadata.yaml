@@ -1,0 +1,16 @@
+repository:
+  repository_name: ConnectedNetworkType
+  release_tag: r2.1
+  release_type: pre-release-rc
+  release_date: null
+  src_commit_sha: 12c78526796f10c609a9dea302a6b64f5126453f
+apis:
+- api_name: connected-network-type-subscriptions
+  api_version: 0.3.0-rc.1
+  api_title: Connected Network Type Subscriptions
+- api_name: connected-network-type
+  api_version: 0.3.0-rc.1
+  api_title: Connected Network Type
+dependencies:
+  commonalities_release: r4.3 (0.8.0)
+  identity_consent_management_release: r4.2 (0.5.0)
