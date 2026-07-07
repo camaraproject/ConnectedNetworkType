@@ -76,15 +76,15 @@ Changes documented below are compared to version 0.2.0.
 
 ### Changed
 
-* N/A
+* Update API definitions to fix CAMARA validation warnings and hints by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/58
 
 ### Fixed
 
-* N/A
+* Fix Network identifier example by @bigludo7 in https://github.com/camaraproject/ConnectedNetworkType/pull/50
 
 ### Removed
 
-* N/A
+* Delete redundant API Readiness Checklists by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/62
 
 ## connected-network-type 0.3.0-rc.1
 
@@ -107,15 +107,16 @@ Changes documented below are compared to version 0.2.0.
 
 ### Changed
 
-* N/A
+* Clarify LastStatusTime description in YAML by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/47
+* Update API definitions to fix CAMARA validation warnings and hints by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/58
 
 ### Fixed
 
-* N/A
+* Fix Network identifier example by @bigludo7 in https://github.com/camaraproject/ConnectedNetworkType/pull/50
 
 ### Removed
 
-* N/A
+* Delete redundant API Readiness Checklists by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/62
 
 **Full Changelog**: https://github.com/camaraproject/ConnectedNetworkType/compare/r1.2...r2.1
 
