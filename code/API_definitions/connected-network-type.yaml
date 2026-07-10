@@ -163,6 +163,10 @@ paths:
                   value:
                     lastStatusTime: "2024-02-20T10:41:38.657Z"
                     connectedNetworkType: UNKNOWN
+                Last Status Update Time Unknown:
+                  value:
+                    lastStatusTime: null
+                    connectedNetworkType: 4G
         "400":
           $ref: "../common/CAMARA_common.yaml#/components/responses/Generic400"
         "401":
@@ -185,8 +189,11 @@ components:
       description: |
         The last time that the connected network type status was confirmed to be correct by the API provider. The status should still be valid, but the API provider is unable to confirm this.
         It must follow [RFC 3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) and must have time zone.
-      allOf:
-        - $ref: "../common/CAMARA_common.yaml#/components/schemas/DateTime"
+      type: string
+      format: date-time
+      maxLength: 64
+      nullable: true
+      example: "2018-04-05T17:31:00Z"
 
     ConnectedNetworkTypeResponse:
       description: Definition of the data that can be returned in the response body
