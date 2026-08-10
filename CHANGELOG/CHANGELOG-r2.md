@@ -71,7 +71,11 @@ Changes documented below are compared to version 0.2.0.
 
 ### Breaking changes
 
-* N/A
+* Update API definitions to fix CAMARA validation warnings and hints by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/58
+  - Pagination for listing of subscriptions using GET /subscriptions is now supported
+    -  Addition of `page` and `perPage` query parameters to control pagination
+    -  Returned subscriptions are now embedded in the array `subscriptions` within the response JSON, with the page tracked within the `pagination` JSON
+    -  Addition of response headers `X-Total-Count`, `X-Total-Pages` and `Link` to facilitate page navigation
 
 ### Added
 
@@ -79,11 +83,15 @@ Changes documented below are compared to version 0.2.0.
 
 ### Changed
 
-* N/A
+* Update API definitions to fix CAMARA validation warnings and hints by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/58
+  - Pagination for listing of subscriptions using GET /subscriptions is now supported
+    -  Addition of `page` and `perPage` query parameters to control pagination
+    -  Returned subscriptions are now embedded in the array `subscriptions` within the response JSON, with the page tracked within the `pagination` JSON
+    -  Addition of response headers `X-Total-Count`, `X-Total-Pages` and `Link` to facilitate page navigation
 
 ### Fixed
 
-* N/A
+* Fix Network identifier example by @bigludo7 in https://github.com/camaraproject/ConnectedNetworkType/pull/50
 
 ### Removed
 
@@ -110,11 +118,13 @@ Changes documented below are compared to version 0.2.0.
 
 ### Changed
 
-* N/A
+* Clarify LastStatusTime description in YAML by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/47
+* Update API definitions to fix CAMARA validation warnings and hints by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/58
+* Improve description of Last Status Time property by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/73
 
 ### Fixed
 
-* N/A
+* Fix Network identifier example by @bigludo7 in https://github.com/camaraproject/ConnectedNetworkType/pull/50
 
 ### Removed
 
