@@ -25,7 +25,7 @@ info:
       - `5G`, if device is connected to a 5G network technology (this includes both 5G-SA and 5G-NSA networks)
       - `UNKNOWN` if the connection technology can not be determined by the API provider (for example, WiFi or satellite technology, or not connected to any network)
 
-    * **Last Status Time** : This property specifies the time when the status of the Connected Network Type being reported by the API provider was last confirmed to be correct. An older status retrieved from historical data is more likely to now be incorrect. If the API provider has no information as to when the the Connected Network Type being reported was last confirmed correct, a `null` value will be returned.
+    * **Last Status Time** : The time when the status of the Connected Network Type being reported by the API provider was last confirmed to be correct. An older status retrieved from historical data is more likely to now be incorrect. If the API provider has no information as to when the the Connected Network Type being reported was last confirmed correct, a `null` value will be returned.
 
     # API Functionality
 
@@ -187,8 +187,11 @@ components:
   schemas:
     LastStatusTime:
       description: |
-        The last time that the status of the `connectedNetworkType` being reported was confirmed to be correct by the API provider. The status should still be valid, but the API provider is not able to positively confirm this. If the API provider has no information as to when the reported `connectedNetworkType` was confirmed correct, a `null` value will be returned.
+        The last time that the status of the `connectedNetworkType` being reported was confirmed to be correct by the API provider. The status should still be valid, but the API provider is not able to positively confirm this.
+
         It must follow [RFC 3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) and must have time zone.
+
+        If the API provider has no information as to when the reported `connectedNetworkType` was confirmed correct, a `null` value will be returned.
       type: string
       format: date-time
       maxLength: 64
