@@ -18,14 +18,14 @@ info:
 
         Note: Network Access Identifier is defined for future use and will not be supported with this version of the API.
 
-    * **Connected Network Type** : This Type identifies the mobile technology of the network that the device is connected to (e.g. 4G, 5G, etc). It is the same as what is displayed on the device (e.g. on mobile phones). When the device moves across different areas of the network, the technology may change. As each technology is different, network capabilities may differ and MUST be checked with the API provider.
-      - `2G`, if device is connected to the 2G network technology (alternative indicators such as "G" or "E" may be displayed on the device)
-      - `3G`, if device is connected to the 3G network technology (alternative indicators such as "H" or "H+" may be displayed on the device)
-      - `4G`, if device is connected to the 4G network technology (alternative indicators such as "LTE" or "LTE+" may be displayed on the device)
-      - `5G`, if device is connected to the 5G network technology
-      - `UNKNOWN` if connection [technology] can not be determined
+    * **Connected Network Type** : This is an identifier for the mobile technology of the network that the device is connected to (e.g. 4G, 5G, etc). It is the same as is displayed on the device (e.g. on mobile phones) to the end user. When the device moves across different areas of the network, the technology may change. As each technology is different, network capabilities may differ and MUST be checked with the API provider.
+      - `2G`, if device is connected to a 2G network technology (alternative indicators such as "G" or "E" may be displayed on the device)
+      - `3G`, if device is connected to a 3G network technology (alternative indicators such as "H" or "H+" may be displayed on the device)
+      - `4G`, if device is connected to a 4G network technology (alternative indicators such as "LTE" or "LTE+" may be displayed on the device)
+      - `5G`, if device is connected to a 5G network technology (this includes both 5G-SA and 5G-NSA networks)
+      - `UNKNOWN` if the connection technology can not be determined by the API provider (for example, WiFi or satellite technology, or not connected to any network)
 
-    * **LastStatusTime** : This property specifies the time when the status was last confirmed to be correct. An older status is more likely to now be incorrect.
+    * **Last Status Time** : This property specifies the time when the status of the Connected Network Type being reported by the API provider was last confirmed to be correct. An older status retrieved from historical data is more likely to now be incorrect. If the API provider has no information as to when the the Connected Network Type being reported was last confirmed correct, a `null` value will be returned.
 
     # API Functionality
 
@@ -187,7 +187,7 @@ components:
   schemas:
     LastStatusTime:
       description: |
-        The last time that the connected network type status was confirmed to be correct by the API provider. The status should still be valid, but the API provider is unable to confirm this.
+        The last time that the status of the `connectedNetworkType` being reported was confirmed to be correct by the API provider. The status should still be valid, but the API provider is not able to positively confirm this. If the API provider has no information as to when the reported `connectedNetworkType` was confirmed correct, a `null` value will be returned.
         It must follow [RFC 3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) and must have time zone.
       type: string
       format: date-time
