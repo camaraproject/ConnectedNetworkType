@@ -57,9 +57,9 @@ _The above section is automatically synchronized by CAMARA project-administratio
 
 * Meetings are held virtually
 
-  * Schedule: Bi-weekly on Wednesday, 09:00 UTC
+  * Schedule: Bi-weekly on Friday, 14:00 UTC
   * [Registration / Join](https://zoom-lfx.platform.linuxfoundation.org/meeting/93413850406?password=3aeb0f1b-d9f9-42c5-91d8-3d2b20421ef1)
-  * Access [meeting minutes](https://lf-camaraproject.atlassian.net/wiki/x/fzLe) 
+  * Access [meeting minutes](https://lf-camaraproject.atlassian.net/wiki/spaces/CAM/pages/14555224/Minutes+-+Device+Status) 
 
 * Mailing List
   * Subscribe / Unsubscribe to the mailing list <https://lists.camaraproject.org/g/sp-dst>.
