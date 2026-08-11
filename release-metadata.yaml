@@ -2,7 +2,7 @@ repository:
   repository_name: ConnectedNetworkType
   release_tag: r2.1
   release_type: pre-release-rc
-  release_date: null
+  release_date: '2026-08-11T15:01:57Z'
   src_commit_sha: 8f05564fbf29825e58bfecf27811070524da5361
 apis:
 - api_name: connected-network-type-subscriptions
