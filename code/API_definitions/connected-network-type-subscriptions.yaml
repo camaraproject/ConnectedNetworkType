@@ -177,7 +177,7 @@ paths:
               summary: "notifications callback"
               description: |
                 Important: this endpoint is to be implemented by the API consumer.
-                The connectivity network type status server will call this endpoint whenever the connected network type of the device changes.
+                The API Provider will send notifications to this endpoint whenever the type of network to which the device is connected changes.
               operationId: postNotification
               parameters:
                 - $ref: "../common/CAMARA_common.yaml#/components/parameters/x-correlator"
