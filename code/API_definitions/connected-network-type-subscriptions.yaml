@@ -26,7 +26,7 @@ info:
 
     # API Functionality
 
-    The API exposes following capabilities:
+    The API exposes the following capabilities:
 
     ## Connected Network Type Subscription Management
 
@@ -35,7 +35,7 @@ info:
 
     It is mandatory in the subscription to provide the event `type` for which the client would like to subscribe.
 
-    Following event ``type`` are managed for this API:
+    The following event ``type`` is managed for this API:
       - ``org.camaraproject.connected-network-type-subscriptions.v0.network-type-changed``: This event is triggered when the connected network type of the device changes.
 
     Note: Additionally, the following events could be sent, which do not require a dedicated subscription:
@@ -44,7 +44,7 @@ info:
       - `org.camaraproject.connected-network-type-subscriptions.v0.subscription-ended` is sent when the subscription ends.
 
     It is used in following cases:
-      - the subscription expire time (optionally set by the requester) has been reached
+      - the subscription expiry time (optionally set by the requester) has been reached
       - the maximum number of subscription events (optionally set by the requester) has been reached
       - the subscription was deleted by the requester
       - the Access Token `sinkCredential` (optionally set by the requester) expiration time has been reached
@@ -58,7 +58,7 @@ info:
     **Clarification on ``initialEvent`` & ``event-type`` behaviour:**
 
     When ``initialEvent`` is set to ``true`` in the subscription request, a notification has to be sent immediately to provide the connected network type of the device targeted.
-    Note: If the status can not be determined, or if the device is not connected, we send an initial event with ``connectedNetworkType`` valued to`UNKNOWN`.
+    Note: If the status can not be determined, or if the device is not connected, we send an initial event with a ``connectedNetworkType`` value of ``UNKNOWN``.
 
     ### Notifications callback
 
@@ -133,7 +133,7 @@ info:
   x-camara-commonalities: wip
 
 externalDocs:
-  description: Product documentation at Camara
+  description: Product documentation at CAMARA
   url: https://github.com/camaraproject/ConnectedNetworkType
 
 servers:
@@ -177,7 +177,7 @@ paths:
               summary: "notifications callback"
               description: |
                 Important: this endpoint is to be implemented by the API consumer.
-                The connectivity network type status server will call this endpoint whenever the connected network type of the device changes.
+                The API provider will send notifications to this endpoint whenever the type of network to which the device is connected changes.
               operationId: postNotification
               parameters:
                 - $ref: "../common/CAMARA_common.yaml#/components/parameters/x-correlator"
@@ -441,7 +441,7 @@ components:
         - $ref: "#/components/schemas/SubscriptionLifecycleEvent"
 
     Subscription:
-      description: Represents a event-type subscription.
+      description: Represents an event-type subscription.
       type: object
       required:
         - sink
@@ -516,7 +516,7 @@ components:
         status: ACTIVE
 
     SubscriptionRequest:
-      description: The request for creating a event-type event subscription
+      description: The request for creating an event-type event subscription
       type: object
       required:
         - sink
@@ -553,7 +553,7 @@ components:
           # KAFKA: "#/components/schemas/ApacheKafkaSubscriptionRequest"
 
     SubscriptionAsync:
-      description: Response for a event-type subscription request managed asynchronously (Creation or Deletion)
+      description: Response for an event-type subscription request managed asynchronously (Creation or Deletion)
       type: object
       required:
         - id
