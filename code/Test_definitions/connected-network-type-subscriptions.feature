@@ -1,6 +1,6 @@
 # connected-network-type-subscriptions
 Feature: CAMARA Connected Network Type Subscriptions API, vwip
-  # Operations createConnectedNetworkTypeSubscription, retrieveConnectedNetworkTypeSubscriptionList, retrieveConnectedNetworkTypeSubscription and deleteConnectedNetworkTypeSubscription
+  # Operations createConnectedNetworkTypeSubscription, retrieveConnectedNetworkTypeSubscription and deleteConnectedNetworkTypeSubscription
 
   # Input to be provided by the implementation to the tester
   #
