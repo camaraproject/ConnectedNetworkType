@@ -403,6 +403,11 @@ components:
           properties:
             subscriptionDetail:
               $ref: "#/components/schemas/CreateSubscriptionDetail"
+            initialEvent:
+              description: |
+                Set to `true` by API consumer if consumer wants to get an event as soon as the subscription is created and current situation reflects event request.
+                Example: API consumer requests `network-type-changed` events. If the API consumer sets initialEvent to true, an event is triggered with the current network type that the device is connected to
+              type: boolean
 
     ApiEventType:
       type: string
