@@ -66,6 +66,7 @@ Changes documented below are compared to version 0.3.0-rc.1.
   * Update error response schema to use new common schema or locally defined schema
     * Add 422 MULTIEVENT_SUBSCRIPTION_NOT_SUPPORTED, MULTIEVENT_COMBINATION_TEMPORARILY_NOT_SUPPORTED and PRIVATE_KEY_JWT_NOT_CONFIGURED for connected-network-type-subscriptions subscription creation
     * Add 404 IDENTIFIER_NOT_FOUND for connected-network-type-subscriptions subscription creation
+  * Property subscriptionDetail is now a required subscription creation parameter
 
 ### Added
 
