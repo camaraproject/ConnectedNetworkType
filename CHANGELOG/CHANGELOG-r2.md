@@ -62,15 +62,50 @@ Changes documented below are compared to version 0.3.0-rc.1.
 
 ### Breaking changes
 
-* N/A
+* [Added / Changed / Removed] Updates for Commonalities r4.4 by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/87
+  * Update error response schema to use new common schema or locally defined schema
+    * Add 422 MULTIEVENT_SUBSCRIPTION_NOT_SUPPORTED, MULTIEVENT_COMBINATION_TEMPORARILY_NOT_SUPPORTED and PRIVATE_KEY_JWT_NOT_CONFIGURED for connected-network-type-subscriptions subscription creation
+    * Add 404 IDENTIFIER_NOT_FOUND for connected-network-type-subscriptions subscription creation
 
 ### Added
 
-* N/A
+* [Added] Move device connected network type subscription list scenarios to separate file and update by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/78
+  * Create file code/Test_definitions/connected-network-type-retrieveConnectedNetworkTypeSubscriptionList.feature and move relevant scenarios from code/Test_definitions/connected-network-type-subscriptions.feature
+  * Add new scenarios:
+    * @connected_network_type_subscriptions_03_operation_to_retrieve_list_of_subscriptions_when_no_records
+    * @connected_network_type_subscriptions_04_pagination_default_values
+    * @connected_network_type_subscriptions_05_pagination_custom_values
+    * @connected_network_type_subscriptions_06_pagination_middle_page
+    * @connected_network_type_subscriptions_07_pagination_last_page
+    * @connected_network_type_subscriptions_retrieve_list_400.01_pagination_invalid_page_parameter
+    * @connected_network_type_subscriptions_retrieve_list_400.02_pagination_invalid_perPage_parameter
+* [Added / Changed / Removed] Updates for Commonalities r4.4 by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/87
+  * Update error response schema to use new common schema or locally defined schema
+    * Add 422 MULTIEVENT_SUBSCRIPTION_NOT_SUPPORTED, MULTIEVENT_COMBINATION_TEMPORARILY_NOT_SUPPORTED and PRIVATE_KEY_JWT_NOT_CONFIGURED for connected-network-type-subscriptions subscription creation
+    * Add 404 IDENTIFIER_NOT_FOUND for connected-network-type-subscriptions subscription creation
+  * Create separate feature files for each defined API operation and move relevant tests from now deleted code/Test_definitions/connected-network-type-subscriptions.feature
+    * code/Test_definitions/connected-network-type-subscriptions-createConnectedNetworkTypeSubscription.feature
+    * code/Test_definitions/connected-network-type-subscriptions-deleteConnectedNetworkTypeSubscription.feature
+    * code/Test_definitions/connected-network-type-subscriptions-retrieveConnectedNetworkTypeSubscription.feature
+  * Add new test scenarios
+    * @connected_network_type_subscriptions_06_subscription_creation_initial_event
+    * @connected_network_type_subscriptions_10_Create_connected_network_type_subscription_sync_with_accesstoken_sink_credential
+    * @connected_network_type_subscriptions_11_Create_connected_network_type_subscription_sync_with_private_jwt_key_sink_credential_out_of_band_provisioning
+    * @connected_network_type_subscriptions_12_Create_connected_network_type_subscription_sync_with_private_jwt_key_sink_credential_in_band_provisioning
+    * @connected_network_type_subscriptions_422.01_multi_event_not_supported
+    * @connected_network_type_subscriptions_422.02_creation_with_private_jwt_key_not_configured
+    * @connected_network_type_subscriptions_03_Operation_to_retrieve_subscription_based_on_an_existing_subscription-id_access_token_sink_credential_returned
+    * @connected_network_type_subscriptions_04_Operation_to_retrieve_subscription_based_on_an_existing_subscription-id_private_jwt_key_sink_credential_returned
+  * Renumber some test scenarios
+  * Property subscriptionDetail is now a required subscription creation parameter
 
 ### Changed
 
-* N/A
+* [Changed] Refactor subscription schemas for Commonalities r4.4 and add initialEvent by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/83
+* [Changed] Fix r2.1 review issues before r2.2 by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/77
+* [Added / Changed / Removed] Updates for Commonalities r4.4 by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/87
+  * Fix some examples
+* [Changed] Update API documentation by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/86
 
 ### Fixed
 
@@ -78,7 +113,8 @@ Changes documented below are compared to version 0.3.0-rc.1.
 
 ### Removed
 
-* N/A
+* [Added / Changed / Removed] Updates for Commonalities r4.4 by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/87
+  * Remove error codes 409 CONFLICT and 409 INCOMPATIBLE_STATE for connected-network-type-subscriptions subscription creation
 
 ## connected-network-type 0.3.0-rc.2
 
@@ -93,15 +129,27 @@ Changes documented below are compared to version 0.3.0-rc.1.
 
 ### Breaking changes
 
-* N/A
+* [Added / Changed / Removed] Updates for Commonalities r4.4 by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/87
+  * Update error response schema to use new common schema or locally defined schema
+    * Add 503 UNAVAILABLE to connected-network-type
 
 ### Added
 
-* N/A
+* [Added / Changed / Removed] Updates for Commonalities r4.4 by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/87
+  * Update error response schema to use new common schema or locally defined schema
+    * Add 503 UNAVAILABLE to connected-network-type
+  * Add new test scenarios
+    * @connected_network_type_429.01_Too_Many_Requests
+    * @connected_network_type_429.02_Quota_Exceeded
 
 ### Changed
 
-* N/A
+* [Changed] Fix r2.1 review issues before r2.2 by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/77
+* [Added / Changed / Removed] Updates for Commonalities r4.4 by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/87
+  * Rename code/Test_definitions/connected-network-type.feature to code/Test_definitions/connected-network-type-getConnectedNetworkType.feature
+  * Renumber some test scenarios
+  * Fix some examples
+* [Changed] Update API documentation by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/86
 
 ### Fixed
 
@@ -109,7 +157,8 @@ Changes documented below are compared to version 0.3.0-rc.1.
 
 ### Removed
 
-* N/A
+* [Added / Changed / Removed] Updates for Commonalities r4.4 by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/87
+    * Remove 403 INVALID_TOKEN_CONTEXT and 404 NOT_FOUND from connected-network-type
 
 **Full Changelog**: https://github.com/camaraproject/ConnectedNetworkType/compare/r2.1...r2.2
 
