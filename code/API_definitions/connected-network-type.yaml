@@ -12,20 +12,23 @@ info:
 
     # Relevant terms and definitions
 
-    * **Device**: A device refers to any physical entity that can connect to a network and participate in network communication.
+    * **Device**:\
+        A device refers to any physical hardware that can connect to a network and participate in network communication.
 
-        At least one identifier for the device (user equipment) out of four options must be provided: IPv4 address, IPv6 address, Phone number, or Network Access Identifier assigned by the mobile network operator for the device. Where more than one device identifier is provided, only one identifier will be selected by the implementation and this choice indicated to the API consumer in the session creation response.
+        At least one identifier for the mobile device (user equipment) out of four options must be provided: IPv4 address, IPv6 address, phone number, or network access identifier assigned by the mobile network operator for the device. Where more than one device identifier is provided, only one identifier will be selected by the implementation and this choice indicated to the API consumer in the response along with the connected network type information.
 
         Note: Network Access Identifier is defined for future use and will not be supported with this version of the API.
 
-    * **Connected Network Type** : This is an identifier for the mobile technology of the network that the device is connected to (e.g. 4G, 5G, etc). It is the same as is displayed on the device (e.g. on mobile phones) to the end user. When the device moves across different areas of the network, the technology may change. As each technology is different, network capabilities may differ and MUST be checked with the API provider.
-      - `2G`, if device is connected to a 2G network technology (alternative indicators such as "G" or "E" may be displayed on the device)
-      - `3G`, if device is connected to a 3G network technology (alternative indicators such as "H" or "H+" may be displayed on the device)
-      - `4G`, if device is connected to a 4G network technology (alternative indicators such as "LTE" or "LTE+" may be displayed on the device)
-      - `5G`, if device is connected to a 5G network technology (this includes both 5G-SA and 5G-NSA networks)
+    * **Connected Network Type**:\
+        This is an identifier for the mobile technology of the network that the device is connected to (e.g. 4G, 5G, etc). It is the same as is displayed on the device (e.g. on mobile phones) to the end user. When the device moves across different areas of the network, the technology may change. As each technology is different, network capabilities may differ and MUST be checked with the API provider.
+      - `2G`, if device is connected to a 2G network technology (alternative indicators such as "G" or "E" may be displayed on the mobile device)
+      - `3G`, if device is connected to a 3G network technology (alternative indicators such as "H" or "H+" may be displayed on the mobile device)
+      - `4G`, if device is connected to a 4G network technology (alternative indicators such as "LTE" or "LTE+" may be displayed on the mobile device)
+      - `5G`, if device is connected to a 5G network technology (this includes both 5G-SA and 5G-NSA networks, and alternative indicators such as "5G+" may be displayed on the mobile device)
       - `UNKNOWN` if the connection technology can not be determined by the API provider (for example, WiFi or satellite technology, or not connected to any network)
 
-    * **Last Status Time** : The time when the status of the Connected Network Type being reported by the API provider was last confirmed to be correct. An older status retrieved from historical data is more likely to now be incorrect. If the API provider has no information as to when the the Connected Network Type being reported was last confirmed correct, a `null` value will be returned.
+    * **Last Status Time**:\
+        The time when the status of the Connected Network Type being reported by the API provider was last confirmed to be correct. An older status retrieved from historical data is more likely to now be incorrect. If the API provider has no information as to when the the Connected Network Type being reported was last confirmed correct, a `null` value will be returned.
 
     # API Functionality
 
@@ -33,7 +36,54 @@ info:
 
     ## Connected Network Type
 
-    The endpoint `POST /retrieve` allows to get connected Network Type.
+    The endpoint `POST /retrieve` allows the API consumer to get the connected network type information for a specific mobile device.
+
+    An example of a JSON response object is as follows:
+    ```
+    {
+      "lastStatusTime": "2024-02-20T10:41:38.657Z",
+      "connectedNetworkType": "4G"
+    }
+    ```
+
+    ## Error Handling
+    Errors may be returned for the following reasons. Note that this list is not exhaustive.
+
+    `401 UNAUTHENTICATED`:
+    - The access token is not a valid access token for the API provider
+    - The access token was valid but has now expired
+
+    `400 INVALID_ARGUMENT`:
+    - The API request is not compliant with this OAS definition
+
+    `400 OUT_OF_RANGE`:
+    - A parameter value in the API request is outwith the range documented in this OAS definition for that parameter
+
+    `404 IDENTIFIER_NOT_FOUND`:
+    - The device identified by the `device` object in the request is not managed by the API provider
+
+    `403 PERMISSION_DENIED`:
+    - The access token does not have the required scope for the endpoint being called
+    - The end user has not consented to the API consumer getting access to the device identifier information (2-legged access token only)
+
+    `422 SERVICE_NOT_APPLICABLE`:
+    - The connected network type status is not applicable to the identified device. For example, the phone number might identify a landline.
+
+    `422 UNSUPPORTED_IDENTIFIER`:
+    - A parameter provided in the `device` object is not supported by this implementation (e.g. `networkAccessIdentifier`)
+
+    `422 MISSING_IDENTIFIER`:\
+    `422 UNNECESSARY_IDENTIFIER`:
+    - See the section "Identifying the device from the access token" below
+
+    `429 QUOTA_EXCEEDED`:
+    - The API consumer has used up the quota of API requests that they were allocated for this API
+
+    `429 TOO_MANY_REQUESTS`:
+    - The rate at which the API consumer is sending requests has exceeded that allowed by the API provider. Try again later.
+
+    `503 UNAVAILABLE`:
+    - The API provider is unable to provide the connected network type for the requested device at this time. Try again later.
 
     <!-- CAMARA:MANDATORY:authorization-and-authentication:BEGIN -->
 
@@ -128,11 +178,20 @@ paths:
         - openId:
             - connected-network-type:read
       requestBody:
+        required: true
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/ConnectedNetworkTypeRequest"
-        required: true
+            examples:
+              Identify Device By 3-Legged Access Token:
+                $ref: '#/components/examples/IdentifyDeviceBy3LeggedToken'
+              Identify Device By Phone Number:
+                $ref: '#/components/examples/IdentifyDeviceByPhoneNumber'
+              Identify Device By IP Address:
+                $ref: '#/components/examples/IdentifyDeviceByIPAddress'
+              Identify Device By Multiple Identifiers:
+                $ref: '#/components/examples/IdentifyDeviceByMultipleIdentifiers'
       responses:
         "200":
           description: Contains connected network type
@@ -285,3 +344,33 @@ components:
       properties:
         device:
           $ref: "../common/CAMARA_common.yaml#/components/schemas/Device"
+
+  examples:
+    IdentifyDeviceBy3LeggedToken:
+      description: Empty JSON when device is identified by access token
+      value:
+        {}
+
+    IdentifyDeviceByPhoneNumber:
+      description: Identifying device by phone number
+      value:
+        device:
+          phoneNumber: "+123456789"
+
+    IdentifyDeviceByIPAddress:
+      description: Identifying device by IP address
+      value:
+        device:
+          ipv4Address:
+            publicAddress: "84.125.93.10"
+            publicPort: 59765
+
+    IdentifyDeviceByMultipleIdentifiers:
+      description: Identifying device by multiple device identifiers
+      value:
+        device:
+          phoneNumber: "+123456789"
+          ipv4Address:
+            publicAddress: "84.125.93.10"
+            publicPort: 59765
+          networkAccessIdentifier: "123456789@example.com"

@@ -11,18 +11,20 @@ info:
 
     # Relevant terms and definitions
 
-    * **Device**: A device refers to any physical entity that can connect to a network and participate in network communication.
+    * **Device**:\
+        A device refers to any physical hardware that can connect to a mobile network and participate in network communication.
 
-        At least one identifier for the device out of four options must be provided: IPv4 address, IPv6 address, Phone number, or Network Access Identifier assigned by the mobile network operator for the device. Where more than one device identifier is provided, only one identifier will be selected by the implementation and this choice indicated to the API consumer in the session creation response.
+        At least one identifier for the device out of four options must be provided: IPv4 address, IPv6 address, phone number, or network access identifier assigned by the mobile network operator for the device. Where more than one device identifier is provided, only one identifier will be selected by the implementation and this choice indicated to the API consumer in the subscription creation response.
 
         Note: Network Access Identifier is defined for future use and will not be supported with this version of the API.
 
-    * **Connected Network Type**: This Type identifies the mobile technology of the network that the device is connected to (e.g. 4G, 5G, etc). It is the same as what is displayed on the device (e.g. on mobile phones). When the device moves across different areas of the network, the technology may change. As each technology is different, network capabilities may differ and MUST be checked with the API provider.
-       - `2G`: if device is connected to the 2G network technology (alternative indicators such as "G" or "E" may be displayed on the device)
-       - `3G`: if device is connected to the 3G network technology (alternative indicators such as "H" or "H+" may be displayed on the device)
-       - `4G`: if device is connected to the 4G network technology (alternative indicators such as "LTE" or "LTE+" may be displayed on the device)
-       - `5G`: if device is connected to the 5G network technology
-       - `UNKNOWN`: if connection technology can not be determined
+    * **Connected Network Type**:\
+        This identifies the type of mobile technology of the network that the device is connected to (e.g. 4G, 5G, etc). It is the same as what is displayed on the device (e.g. on mobile phones). When the device moves across different areas of the network, the technology may change. As each technology is different, network capabilities may differ and MUST be checked with the API provider.
+       - `2G`, if device is connected to the 2G network technology (alternative indicators such as "G" or "E" may be displayed on the device)
+       - `3G`, if device is connected to the 3G network technology (alternative indicators such as "H" or "H+" may be displayed on the device)
+       - `4G`, if device is connected to the 4G network technology (alternative indicators such as "LTE" or "LTE+" may be displayed on the device)
+       - `5G`, if device is connected to a 5G network technology (this includes both 5G-SA and 5G-NSA networks, and alternative indicators such as "5G+" may be displayed on the mobile device)
+       - `UNKNOWN`, if connection technology can not be determined (for example, WiFi or satellite technology, or not connected to any network)
 
     # API Functionality
 
@@ -33,41 +35,39 @@ info:
     These endpoints allow you to manage subscriptions for receiving notifications on changes to the connected network type of a device.
     The CAMARA subscription model is detailed in the CAMARA API design guideline document and follows CloudEvents specification.
 
-    It is mandatory in the subscription to provide the event `type` for which the client would like to subscribe.
+    It is mandatory in the subscription to provide the event type for which the client would like to subscribe.
 
-    The following event ``type`` is managed for this API:
-      - ``org.camaraproject.connected-network-type-subscriptions.v0.network-type-changed``: This event is triggered when the connected network type of the device changes.
+    The following event type may be requested for this API:
+      - `org.camaraproject.connected-network-type-subscriptions.v0.network-type-changed`: This event is triggered when the connected network type of the device changes.
 
     Note: Additionally, the following events could be sent, which do not require a dedicated subscription:
       - `org.camaraproject.connected-network-type-subscriptions.v0.subscription-started` is sent when the subscription starts.
       - `org.camaraproject.connected-network-type-subscriptions.v0.subscription-updated` is sent when the subscription is updated.
       - `org.camaraproject.connected-network-type-subscriptions.v0.subscription-ended` is sent when the subscription ends.
 
-    It is used in following cases:
-      - the subscription expiry time (optionally set by the requester) has been reached
+    The `subscription-ended` event may be used in following cases:
+      - the subscription expire time (optionally set by the requester) has been reached
       - the maximum number of subscription events (optionally set by the requester) has been reached
-      - the subscription was deleted by the requester
-      - the Access Token `sinkCredential` (optionally set by the requester) expiration time has been reached
-      - the API server has to stop sending notification prematurely
+      - the subscription was deleted by the API consumer
+      - the expiry time for the access token `sinkCredential` (optionally set by the API consumer) time has been reached
+      - the API provider has to stop sending notifications early
 
-    **Note on combined usage of ``initialEvent`` and ``subscriptionMaxEvents``**:
+    **Note on combined usage of `initialEvent` and `subscriptionMaxEvents`**:
 
-    If an event is triggered following ``initialEvent`` set to true,
-    this event will be counted towards ``subscriptionMaxEvents`` (if provided).
+    If an initial event is triggered because `initialEvent` set to true, that event will count towards `subscriptionMaxEvents` if that has been specified.
 
-    **Clarification on ``initialEvent`` & ``event-type`` behaviour:**
+    **Clarification on `initialEvent` & `event-type` behaviour:**
 
-    When ``initialEvent`` is set to ``true`` in the subscription request, a notification has to be sent immediately to provide the connected network type of the device targeted.
-    Note: If the status can not be determined, or if the device is not connected, we send an initial event with a ``connectedNetworkType`` value of ``UNKNOWN``.
+    When `initialEvent` is set to `true` in the subscription request, a notification has to be sent immediately to provide the connected network type of the device targeted.
+    Note: If the status can not be determined, or if the device is not connected, an initial event with a `connectedNetworkType` value of `UNKNOWN` will be sent.
 
     ### Notifications callback
 
-    This endpoint describes the event notification received on subscription listener side when the event occurred.
-    As for subscription, detailed description of the event notification is provided in the CAMARA API design guideline document.
+    This endpoint describes the format of the event notification received by the API consumer when an event is sent.
+    A detailed description of the event subscription and notification mechanism is provided in the `CAMARA API Event Subscription and Notification Guide`.
 
-    _**WARNING**: This callback endpoint must be exposed on the consumer side as `POST /{$request.body#/sink}`.
-      Developers may provide a callback URL on which notifications regarding connected network type can be received from the service provider.
-      If an event occurs the application will send events to the provided webhook - 'sink'._
+    _**WARNING**:\
+      API consumers must provide a callback URL on which reachability status notifications from the API provider can be received. This callback endpoint must be exposed by API consumer as `POST /{$request.body#/sink}`. When an event occurs, the API provider will send the event to the URL specified by `sink`._
 
     <!-- CAMARA:MANDATORY:authorization-and-authentication:BEGIN -->
 
