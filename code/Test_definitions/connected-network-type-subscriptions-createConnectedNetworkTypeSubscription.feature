@@ -1,6 +1,5 @@
-# connected-network-type-subscriptions
-Feature: CAMARA Connected Network Type Subscriptions API, vwip
-  # Operations createConnectedNetworkTypeSubscription, retrieveConnectedNetworkTypeSubscription and deleteConnectedNetworkTypeSubscription
+# connected-network-type-subscriptions-createConnectedNetworkTypeSubscription
+Feature: CAMARA Connected Network Type Subscriptions API, vwip - Operation createConnectedNetworkTypeSubscription
 
   # Input to be provided by the implementation to the tester
   #
@@ -21,6 +20,7 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip
     And the resource "/connected-network-type-subscriptions/vwip"
     And the header "Authorization" is set to a valid access token
     And the header "x-correlator" complies with the schema at "#/components/schemas/XCorrelator"
+    And the request body is compliant with the OAS schema at "#/components/schemas/SubscriptionRequest"
 
 ##########################
 # Happy path scenarios
@@ -89,43 +89,7 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip
       | subscription-creation-types                                                             |
       | org.camaraproject.connected-network-type-subscriptions.v0.network-type-changed          |
 
-  @connected_network_type_subscriptions_03.1_retrieve_by_id_2legs
-  Scenario: Check existing subscription is retrieved by id with a 2-legged access token
-    Given a subscription exists and has a subscriptionId equal to "id"
-    And the header "Authorization" is set to a valid access token which does not identify any device
-    When the request "retrieveConnectedNetworkTypeSubscription" is sent
-    And the path parameter "subscriptionId" is set to "id"
-    Then the response status code is 200
-    And the response header "Content-Type" is "application/json"
-    And the response header "x-correlator" has same value as the request header "x-correlator"
-    And the response body complies with the OAS schema at "#/components/schemas/Subscription"
-    And the response property "$.id" is equal to "id"
-    And the response property "$.config.subscriptionDetail.device" is present
-
-  @connected_network_type_subscriptions_03.2_retrieve_by_id_3legs
-  Scenario: Check existing subscription is retrieved by id with a 3-legged access token
-    Given a subscription exists and has a subscriptionId equal to "id"
-    And the header "Authorization" is set to a valid access token which identifies the device associated with the subscription
-    When the request "retrieveConnectedNetworkTypeSubscription"
-    And the path parameter "subscriptionId" is set to "id"
-    Then the response status code is 200
-    And the response header "Content-Type" is "application/json"
-    And the response header "x-correlator" has same value as the request header "x-correlator"
-    And the response body complies with the OAS schema at "#/components/schemas/Subscription"
-    And the response property "$.id" is equal to "id"
-    And the response property "$.config.subscriptionDetail.device" is not present
-
-  @connected_network_type_subscriptions_07_delete_subscription_based_on_an_existing_subscription-id
-  Scenario: Delete the subscription with subscriptionId equal to "id"
-    Given the API consumer has an active subscription with "subscriptionId" equal to "id"
-    When the request "deleteConnectedNetworkTypeSubscription" is sent
-    And the path parameter "subscriptionId" is set to "id"
-    Then the response status code is 202 or 204
-    And the response header "x-correlator" has same value as the request header "x-correlator"
-    And if the response property "$.status" is 204 then response body is not present
-    And if the response property "$.status" is 202 then response body complies with the OAS schema at "#/components/schemas/SubscriptionAsync" and the response property "$.id" is equal to "id"
-
-  @connected_network_type_subscriptions_08_receive_notification_when_network_type_changed
+  @connected_network_type_subscriptions_03_receive_notification_when_network_type_changed
   Scenario: Receive notification for network-type-changed event
     Given a valid subscription for a device exists with "subscriptionId" equal to "id"
     And the subscription property "$.types" contains the element "org.camaraproject.connected-network-type-subscriptions.v0.network-type-changed"
@@ -137,51 +101,95 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip
     And the notification property "$.type" is equal to "org.camaraproject.connected-network-type-subscriptions.v0.network-type-changed"
     And the notification property "$.data.subscriptionId" is equal to "id"
 
-  @connected_network_type_subscriptions_09_subscription_expiry
+  @connected_network_type_subscriptions_04_subscription_expiry
   Scenario: Receive notification for subscription-ended event on expiry
     Given a valid subscription for a device exists with "subscriptionId" equal to "id"
-    And the subscription property "$.subscriptionExpireTime" is set to a value in the near future
+    And the subscription property "$.config.subscriptionExpireTime" is set to a value in the near future
     And the subscription property "$.sink" is a valid callback URL
     When the subscriptionExpireTime is reached
     Then a subscription termination event notification is sent to the callback URL
-    And the notification body complies with the OAS schema at "#/components/schemas/EventSubscriptionEnds"
+    And the notification body complies with the OAS schema at "#/components/schemas/EventSubscriptionEnded"
     And the notification property "$.type" is "org.camaraproject.connected-network-type-subscriptions.v0.subscription-ended"
     And the notification property "$.data.subscriptionId" is equal to "id"
     And the notification property "$.data.terminationReason" is equal to "SUBSCRIPTION_EXPIRED"
 
-  @connected_network_type_subscriptions_10_subscription_end_when_max_events
+  @connected_network_type_subscriptions_05_subscription_end_when_max_events
   Scenario: Receive notification for subscription-ended event on max events reached
     Given a valid subscription for a device exists with "subscriptionId" equal to "id"
-    And the subscription property "$.subscriptionMaxEvents" is set to 1
+    And the subscription property "$.config.subscriptionMaxEvents" is set to 1
     And the subscription property "$.sink" is a valid callback URL
-    When a single notification corresponding to subscription property "$.type" has been sent to the callback URL
+    When a single notification corresponding to subscription property "$.types" has been sent to the callback URL
     Then a subscription termination event notification is sent to the callback URL
-    And the notification body complies with the OAS schema at "#/components/schemas/EventSubscriptionEnds"
+    And the notification body complies with the OAS schema at "#/components/schemas/EventSubscriptionEnded"
     And the notification property "$.type" is equal to "org.camaraproject.connected-network-type-subscriptions.v0.subscription-ended"
     And the notification property "$.data.subscriptionId" is equal to "id"
     And the notification request property "$.data.terminationReason" is equal to "MAX_EVENTS_REACHED"
 
-  @connected_network_type_subscriptions_11_subscription_delete_event_validation
-  Scenario: Receive notification for subscription-ended event on deletion
-    Given a valid subscription for a device exists with "subscriptionId" equal to "id"
-    And the subscription property "$.sink" is a valid callback URL
-    When the request "deleteConnectedNetworkTypeSubscription" is sent
-    And the path parameter "subscriptionId" is set to "id"
-    And the response status code is 202 or 204
-    Then a subscription termination event notification is sent to the callback URL
-    And the notification body complies with the OAS schema at "#/components/schemas/EventSubscriptionEnds"
-    And the notification property "$.type" is equal to "org.camaraproject.connected-network-type-subscriptions.v0.subscription-ended"
-    And the notification property "$.data.subscriptionId" is equal to "id"
-    And the notification request property "$.data.terminationReason" is equal to "SUBSCRIPTION_DELETED"
+  @connected_network_type_subscriptions_06_subscription_creation_initial_event
+  Scenario: Receive initial event notification on creation
+    Given the API supports initial events to be sent
+    And a valid subscription request body with property "$.config.initialEvent" set to true
+    When the request "createConnectedNetworkTypeSubscription" is sent
+    Then the response code is 201 or 202
+    And an event notification of the subscribed type is received on callback-url
+    And notification body complies with the OAS schema at "#/components/schemas/CloudEvent"
 
-################
+  @connected_network_type_subscriptions_10_create_connected_network_type_subscription_sync_with_accesstoken_sink_credential
+  Scenario: Create connected network type subscription (sync creation) with ACCESSTOKEN sinkCredential
+  # Some implementations may only support asynchronous subscription creation
+  # Some implementations may decide to not return the sinkCredential in the response (data minimization principle)
+    Given that subscriptions are created synchronously
+    And a valid subscription request body
+    And the request property "$.sinkCredential.credentialType" is set to "ACCESSTOKEN"
+    And the request property "$.sinkCredential.accessTokenType" is set to "bearer"
+    And the request property "$.sinkCredential.accessToken" is set to a valid access token
+    And the request property "$.sinkCredential.accessTokenExpiresUtc" is set to a valid expiry date in the future
+    When the request "createConnectedNetworkTypeSubscription" is sent
+    Then the response code is 201
+    And the response header "Content-Type" is "application/json"
+    And the response header "x-correlator" has the same value as the request header "x-correlator"
+    And the response body complies with the OAS schema at "#/components/schemas/Subscription"
+    And the response body property "$.sinkCredential.credentialType", if present, is set to value "ACCESSTOKEN"
+    And the response body property "$.sinkCredential.accessTokenExpiresUtc", if present, is set to the same value of the request property "$.sinkCredential.accessTokenExpiresUtc"
+
+  @connected_network_type_subscriptions_11_create_connected_network_type_subscription_sync_with_private_jwt_key_sink_credential_out_of_band_provisioning
+  Scenario: Create connected network type subscription (sync creation) with PRIVATE_JWT_KEY sinkCredential, out-of-band provisioning
+  # Some implementations may only support asynchronous subscription creation
+  # Some implementations may only support out_of_band provisioning
+    Given that subscriptions are created synchronously
+    And a valid subscription request body
+    And the request property "$.sinkCredential.credentialType" is set to "PRIVATE_JWT_KEY"
+    When the request "createConnectedNetworkTypeSubscription" is sent
+    Then the response code is 201
+    And the response header "Content-Type" is "application/json"
+    And the response header "x-correlator" has the same value as the request header "x-correlator"
+    And the response body complies with the OAS schema at "#/components/schemas/Subscription"
+
+  @connected_network_type_subscriptions_12_create_connected_network_type_subscription_sync_with_private_jwt_key_sink_credential_in_band_provisioning
+  Scenario: Create connected network type subscription (sync creation) with PRIVATE_JWT_KEY sinkCredential, in-band provisioning
+  # Some implementations may only support asynchronous subscription creation
+  # Some implementations may additionally support in_band provisioning
+    Given that subscriptions are created synchronously
+    And a valid subscription request body
+    And the request property "$.sinkCredential.credentialType" is set to "PRIVATE_JWT_KEY"
+    And the request property "$.sinkCredential.clientId" is set to a valid value
+    And the request property "$.sinkCredential.tokenUri" is set to a valid value
+    When the request "createConnectedNetworkTypeSubscription" is sent
+    Then the response code is 201
+    And the response header "Content-Type" is "application/json"
+    And the response header "x-correlator" has the same value as the request header "x-correlator"
+    And the response body complies with the OAS schema at "#/components/schemas/Subscription"
+    And the response body property "$.sinkCredential.credentialType" is set to value "PRIVATE_JWT_KEY"
+    And the response body property "$.sinkCredential.jwksUri" is set to a valid value
+
+##########################################################
 # Error scenarios for management of input parameter device
-##################
+##########################################################
 
   @connected_network_type_subscriptions_C01.01_device_empty
   Scenario: The device value is an empty object
     Given the header "Authorization" is set to a valid access token which does not identify a single device
-    And the request body property "$.device" is set to: {}
+    And the request body property "$.config.subscriptionDetail.device" is set to: {}
     When the request "createConnectedNetworkTypeSubscription" is sent
     Then the response status code is 400
     And the response property "$.status" is 400
@@ -199,17 +207,17 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip
     And the response property "$.message" contains a user friendly text
 
     Examples:
-      | device_identifier          | oas_spec_schema                             |
-      | $.device.phoneNumber       | /components/schemas/PhoneNumber             |
-      | $.device.ipv4Address       | /components/schemas/DeviceIpv4Addr          |
-      | $.device.ipv6Address       | /components/schemas/DeviceIpv6Address       |
-      | $.device.networkIdentifier | /components/schemas/NetworkAccessIdentifier |
+      | device_identifier                                          | oas_spec_schema                              |
+      | $.config.subscriptionDetail.device.phoneNumber             | #/components/schemas/PhoneNumber             |
+      | $.config.subscriptionDetail.device.ipv4Address             | #/components/schemas/DeviceIpv4Address       |
+      | $.config.subscriptionDetail.device.ipv6Address             | #/components/schemas/DeviceIpv6Address       |
+      | $.config.subscriptionDetail.device.networkAccessIdentifier | #/components/schemas/NetworkAccessIdentifier |
 
   # This scenario may happen e.g. with 2-legged access tokens, which do not identify a single device.
   @connected_network_type_subscriptions_C01.03_device_not_found
   Scenario: Some identifier cannot be matched to a device
     Given the header "Authorization" is set to a valid access token which does not identify a single device
-    And the request body property "$.device" is compliant with the schema but does not identify a device whose connectivity is managed by the API provider
+    And the request body property "$.config.subscriptionDetail.device" is compliant with the schema but does not identify a device whose connectivity is managed by the API provider
     When the request "createConnectedNetworkTypeSubscription" is sent
     Then the response status code is 404
     And the response property "$.status" is 404
@@ -219,7 +227,7 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip
   @connected_network_type_subscriptions_C01.04_unnecessary_device
   Scenario: Device not to be included when it can be deduced from the access token
     Given the header "Authorization" is set to a valid access token identifying a device
-    And the request body property "$.device" is also set to a valid device, which may or may not be the same device
+    And the request body property "$.config.subscriptionDetail.device" is also set to a valid device, which may or may not be the same device
     When the request "createConnectedNetworkTypeSubscription" is sent
     Then the response status code is 422
     And the response property "$.status" is 422
@@ -229,7 +237,7 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip
   @connected_network_type_subscriptions_C01.05_missing_device
   Scenario: Device not included and cannot be deduced from the access token
     Given the header "Authorization" is set to a valid access token which does not identify a single device
-    And the request body property "$.device" is not included
+    And the request body property "$.config.subscriptionDetail.device" is not included
     When the request "createConnectedNetworkTypeSubscription" is sent
     Then the response status code is 422
     And the response property "$.status" is 422
@@ -240,7 +248,7 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip
   Scenario: None of the provided device identifiers is supported by the implementation
     Given that some types of device identifiers are not supported by the implementation
     And the header "Authorization" is set to a valid access token which does not identify a single device
-    And the request body property "$.device" only includes device identifiers not supported by the implementation
+    And the request body property "$.config.subscriptionDetail.device" only includes device identifiers not supported by the implementation
     When the request "createConnectedNetworkTypeSubscription" is sent
     Then the response status code is 422
     And the response property "$.status" is 422
@@ -262,7 +270,7 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip
 # Error code 400
 ##################
 
-  @connected_network_type_subscriptions_400.1_create_subscription_with_invalid_parameter
+  @connected_network_type_subscriptions_400.01_create_subscription_with_invalid_parameter
   Scenario: Create subscription with invalid parameter
     Given the request body is not compliant with the schema "#/components/schemas/SubscriptionRequest"
     When the request "createConnectedNetworkTypeSubscription" is sent
@@ -271,7 +279,7 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip
     And the response property "$.code" is "INVALID_ARGUMENT"
     And the response property "$.message" contains a user friendly text
 
-  @connected_network_type_subscriptions_400.2_create_subscription_with_invalid_subscription_expire_time
+  @connected_network_type_subscriptions_400.02_create_subscription_with_invalid_subscription_expire_time
   Scenario: Expiry time in past
     Given the request body is compliant with the schema "#/components/schemas/SubscriptionRequest"
     And the request property "$.config.subscriptionExpireTime" is set to a time in the past
@@ -281,7 +289,7 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip
     And the response property "$.code" is "INVALID_ARGUMENT"
     And the response property "$.message" contains a user friendly text
 
-  @connected_network_type_subscriptions_400.3_invalid_eventType
+  @connected_network_type_subscriptions_400.03_invalid_eventType
   Scenario: Subscription creation with invalid event type
     Given the request body is compliant with the schema "#/components/schemas/SubscriptionRequest"
     And the request body property "$.types" is set to a value other than "org.camaraproject.connected-network-type-subscriptions.v0.network-type-changed"
@@ -291,7 +299,7 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip
     And the response property "$.code" is "INVALID_ARGUMENT"
     And the response property "$.message" contains a user friendly text
 
-  @connected_network_type_subscriptions_400.4_invalid_protocol
+  @connected_network_type_subscriptions_400.04_invalid_protocol
   Scenario: subscription creation with invalid protocol
     Given the request body is compliant with the schema "#/components/schemas/SubscriptionRequest"
     And the request property "$.protocol" is not equal to "HTTP"
@@ -301,7 +309,7 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip
     And the response property "$.code" is "INVALID_PROTOCOL"
     And the response property "$.message" contains a user friendly text
 
-  @connected_network_type_subscriptions_400.5_create_subscription_with_invalid_credential_type
+  @connected_network_type_subscriptions_400.05_create_subscription_with_invalid_credential_type
   Scenario: subscription creation with invalid credential type
     Given the request body is compliant with the schema "#/components/schemas/SubscriptionRequest"
     And the request property "$.sinkCredential.accessTokenType" is equal to "bearer"
@@ -312,7 +320,7 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip
     And the response property "$.code" is "INVALID_CREDENTIAL"
     And the response property "$.message" contains a user friendly text
 
-  @connected_network_type_subscriptions_400.6_create_subscription_with_invalid_access_token_type
+  @connected_network_type_subscriptions_400.06_create_subscription_with_invalid_access_token_type
   Scenario: subscription creation with invalid token
     Given the request body is compliant with the schema "#/components/schemas/SubscriptionRequest"
     And the request property "$.sinkCredential.credentialType" is equal to "ACCESSTOKEN"
@@ -323,7 +331,7 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip
     And the response property "$.code" is "INVALID_TOKEN"
     And the response property "$.message" contains a user friendly text
 
-  @connected_network_type_subscriptions_400.7_create_subscription_with_invalid_sink_url
+  @connected_network_type_subscriptions_400.07_create_subscription_with_invalid_sink_url
   Scenario: Subscription creation with invalid url
     Given the request body is compliant with the schema "#/components/schemas/SubscriptionRequest"
     And the request property "$.protocol" is set to "HTTP"
@@ -337,7 +345,7 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip
 # Error code 401
 ##################
 
-  @connected_network_type_subscriptions_creation_401.1_no_authorization_header
+  @connected_network_type_subscriptions_creation_401.01_no_authorization_header
   Scenario: No Authorization header when creating subscription
     Given the request header "Authorization" is removed
     And the request body is compliant with the schema "#/components/schemas/SubscriptionRequest"
@@ -348,7 +356,7 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip
     And the response property "$.code" is "UNAUTHENTICATED"
     And the response property "$.message" contains a user friendly text
 
-  @connected_network_type_subscriptions_creation_401.2_expired_access_token
+  @connected_network_type_subscriptions_creation_401.02_expired_access_token
   Scenario: Expired access token when creating subscription
     Given the header "Authorization" is set to a previously valid but now expired access token
     And the request body is compliant with the schema "#/components/schemas/SubscriptionRequest"
@@ -359,7 +367,7 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip
     And the response property "$.code" is "UNAUTHENTICATED"
     And the response property "$.message" contains a user friendly text
 
-  @connected_network_type_subscriptions_creation_401.3_malformed_access_token
+  @connected_network_type_subscriptions_creation_401.03_malformed_access_token
   Scenario: Malformed access token when creating subscription
     Given the header "Authorization" is set to a malformed token
     And the request body is compliant with the schema "#/components/schemas/SubscriptionRequest"
@@ -370,71 +378,11 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip
     And the response property "$.code" is "UNAUTHENTICATED"
     And the response property "$.message" contains a user friendly text
 
-  @connected_network_type_subscriptions_retrieve_401.4_no_authorization_header
-  Scenario: No Authorization header when retrieving subscriptions
-    Given the request header "Authorization" is removed
-    When the request "retrieveConnectedNetworkTypeSubscription" is sent
-    Then the response status code is 401
-    And the response header "Content-Type" is "application/json"
-    And the response property "$.status" is 401
-    And the response property "$.code" is "UNAUTHENTICATED"
-    And the response property "$.message" contains a user friendly text
-
-  @connected_network_type_subscriptions_retrieve_401.5_expired_access_token
-  Scenario: Expired access token when retrieving subscriptions
-    Given the header "Authorization" is set to a previously valid but now expired access token
-    When the request "retrieveConnectedNetworkTypeSubscription" is sent
-    Then the response status code is 401
-    And the response header "Content-Type" is "application/json"
-    And the response property "$.status" is 401
-    And the response property "$.code" is "UNAUTHENTICATED"
-    And the response property "$.message" contains a user friendly text
-
-  @connected_network_type_subscriptions_retrieve_401.6_malformed_access_token
-  Scenario: Malformed access token when retrieving subscriptions
-    Given the header "Authorization" is set to a malformed token
-    When the request "retrieveConnectedNetworkTypeSubscription" is sent
-    Then the response status code is 401
-    And the response header "Content-Type" is "application/json"
-    And the response property "$.status" is 401
-    And the response property "$.code" is "UNAUTHENTICATED"
-    And the response property "$.message" contains a user friendly text
-
-  @connected_network_type_subscriptions_delete_401.7_no_authorization_header
-  Scenario: No Authorization header when deleting subscription
-    Given the request header "Authorization" is removed
-    When the request "deleteConnectedNetworkTypeSubscription" is sent
-    Then the response status code is 401
-    And the response header "Content-Type" is "application/json"
-    And the response property "$.status" is 401
-    And the response property "$.code" is "UNAUTHENTICATED"
-    And the response property "$.message" contains a user friendly text
-
-  @connected_network_type_subscriptions_delete_401.8_expired_access_token
-  Scenario: Expired access token when deleting subscription
-    Given the header "Authorization" is set to a previously valid but now expired access token
-    When the request "deleteConnectedNetworkTypeSubscription" is sent
-    Then the response status code is 401
-    And the response header "Content-Type" is "application/json"
-    And the response property "$.status" is 401
-    And the response property "$.code" is "UNAUTHENTICATED"
-    And the response property "$.message" contains a user friendly text
-
-  @connected_network_type_subscriptions_delete_401.9_malformed_access_token
-  Scenario: Malformed access token when deleting subscription
-    Given the header "Authorization" is set to a malformed token
-    When the request "deleteConnectedNetworkTypeSubscription" is sent
-    Then the response status code is 401
-    And the response header "Content-Type" is "application/json"
-    And the response property "$.status" is 401
-    And the response property "$.code" is "UNAUTHENTICATED"
-    And the response property "$.message" contains a user friendly text
-
 ##################
 # Error code 403
 ##################
 
-  @connected_network_type_subscriptions_create_403.1_permission_denied
+  @connected_network_type_subscriptions_create_403.01_permission_denied
   Scenario: subscription creation without having the required scope
     # To test this, a token must not have the required scope
     Given the access token does not include scope "connected-network-type-subscriptions:org.camaraproject.connected-network-type-subscriptions.v0.network-type-changed:create"
@@ -446,7 +394,7 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip
     And the response property "$.code" is "PERMISSION_DENIED"
     And the response property "$.message" contains a user friendly text
 
-  @connected_network_type_subscriptions_create_403.2_subscription_mismatch_for_requested_events_subscription
+  @connected_network_type_subscriptions_create_403.02_subscription_mismatch_for_requested_events_subscription
   Scenario: Subscription creation with invalid access token for requested events subscription
     # Note - currently "org.camaraproject.connected-network-type-subscriptions.v0.network-type-changed" is the only valid subscription type for this API
     Given the access token includes only a single subscription scope
@@ -459,25 +407,56 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip
     And the response property "$.message" contains a user friendly text
 
 ##################
-# Error code 404
+# Error code 422
 ##################
 
-  @connected_network_type_subscriptions_404.1_retrieve_unknown_subscription_id
-  Scenario: Get subscription when subscriptionId is unknown to the system
-    Given that there is no valid subscription with "subscriptionId" equal to "id"
-    When the request "retrieveConnectedNetworkTypeSubscription" is sent
-    And the path parameter "subscriptionId" is equal to "id"
-    Then the response status code is 404
-    And the response property "$.status" is 404
-    And the response property "$.code" is "NOT_FOUND"
+  # Note that the test conditions for this test cannot be satisified for the current definition of #/components/schemas/SubscriptionRequest
+  @connected_network_type_subscriptions_422.01_multi_event_not_supported
+  Scenario: Multi-event subscriptions are not supported
+    Given a valid 2- or 3-legged access token
+    And a request body that is compliant with the OAS schema at "#/components/schemas/SubscriptionRequest"
+    And request property "$.types" includes more than one subscription-type
+    When the request "createConnectedNetworkTypeSubscription" is sent
+    Then the response status code is 422
+    And the response property "$.status" is 422
+    And the response property "$.code" is "MULTIEVENT_SUBSCRIPTION_NOT_SUPPORTED"
     And the response property "$.message" contains a user friendly text
 
-  @connected_network_type_subscriptions_404.2_delete_unknown_subscription_id
-  Scenario: Delete subscription with subscriptionId unknown to the system
-    Given that there is no valid subscription with "subscriptionId" equal to "id"
-    When the request "deleteConnectedNetworkTypeSubscription" is sent
-    And the path parameter "subscriptionId" is equal to "id"
-    Then the response code is 404
-    And the response property "$.status" is 404
-    And the response property "$.code" is "NOT_FOUND"
+  @connected_network_type_subscriptions_422.02_creation_with_private_jwt_key_not_configured
+  Scenario: Private JWT Key not configured for subscription creation
+    Given the API provider requires the use of a Private JWT key mechanism for subscription creation authentication
+    And the Private JWT key mechanism is not pre-configured in the environment
+    And a valid subscription request body with the property "$.sinkCredential.credentialType" set to "PRIVATE_KEY_JWT"
+    When the request "createConnectedNetworkTypeSubscription" is sent
+    Then the response code is 422
+    And the response property "$.status" is 422
+    And the response property "$.code" is "PRIVATE_KEY_JWT_NOT_CONFIGURED"
+    And the response property "$.message" contains a user friendly text
+
+#################
+# Error code 429
+#################
+
+  @connected_network_type_subscriptions_create_429.01_Too_Many_Requests
+  #To test this scenario environment has to be configured to reject requests reaching the threshold limit set.
+  Scenario: Request is rejected due to threshold policy
+    Given a valid request for "createConnectedNetworkTypeSubscription"
+    And the header "Authorization" is set to a valid access token
+    And the threshold of requests has been reached
+    When the request "createConnectedNetworkTypeSubscription" is sent
+    Then the response status code is 429
+    And the response property "$.status" is 429
+    And the response property "$.code" is "TOO_MANY_REQUESTS"
+    And the response property "$.message" contains a user friendly text
+
+  @connected_network_type_subscriptions_create_429.02_Quota_Exceeded
+  #To test this scenario environment has to be configured to reject requests reaching the allocated quota.
+  Scenario: Request is rejected due to API consumer quota being reached
+    Given a valid request for "createConnectedNetworkTypeSubscription"
+    And the header "Authorization" is set to a valid access token
+    And the API consumer allocated quota of requests has been reached
+    When the request "createConnectedNetworkTypeSubscription" is sent
+    Then the response status code is 429
+    And the response property "$.status" is 429
+    And the response property "$.code" is "QUOTA_EXCEEDED"
     And the response property "$.message" contains a user friendly text

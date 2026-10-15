@@ -196,6 +196,4 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip - Operation retri
 # Error code 403
 ##################
 
-##################
-# Error code 404
-##################
+# No test scenarios yet defined

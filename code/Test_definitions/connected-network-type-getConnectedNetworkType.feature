@@ -51,9 +51,9 @@ Feature: CAMARA Connected Network Type API, vwip - Operation getConnectedNetwork
     And the response property "$.connectedNetworkType" is "UNKNOWN"
     And the response property "$.lastStatusTime" is present and either has a valid date-time format for a time in the past, or is null
 
-#################
+##########################################################
 # Error scenarios for management of input parameter device
-##################
+##########################################################
 
   @connected_network_type_C01.01_device_empty
   Scenario: The device value is an empty object
@@ -76,11 +76,11 @@ Feature: CAMARA Connected Network Type API, vwip - Operation getConnectedNetwork
     And the response property "$.message" contains a user friendly text
 
     Examples:
-      | device_identifier          | oas_spec_schema                             |
-      | $.device.phoneNumber       | /components/schemas/PhoneNumber             |
-      | $.device.ipv4Address       | /components/schemas/DeviceIpv4Addr          |
-      | $.device.ipv6Address       | /components/schemas/DeviceIpv6Address       |
-      | $.device.networkIdentifier | /components/schemas/NetworkAccessIdentifier |
+      | device_identifier                | oas_spec_schema                              |
+      | $.device.phoneNumber             | #/components/schemas/PhoneNumber             |
+      | $.device.ipv4Address             | #/components/schemas/DeviceIpv4Address       |
+      | $.device.ipv6Address             | #/components/schemas/DeviceIpv6Address       |
+      | $.device.networkAccessIdentifier | #/components/schemas/NetworkAccessIdentifier |
 
   # This scenario may happen e.g. with 2-legged access tokens, which do not identify a single device.
   @connected_network_type_C01.03_device_not_found
@@ -139,7 +139,7 @@ Feature: CAMARA Connected Network Type API, vwip - Operation getConnectedNetwork
 # Error code 401
 #################
 
-  @connected_network_type_401.1_expired_access_token
+  @connected_network_type_401.01_expired_access_token
   Scenario: Expired access token
     Given the header "Authorization" is set to an expired access token
     And the request body is set to a valid request body
@@ -149,7 +149,7 @@ Feature: CAMARA Connected Network Type API, vwip - Operation getConnectedNetwork
     And the response property "$.code" is "UNAUTHENTICATED"
     And the response property "$.message" contains a user friendly text
 
-  @connected_network_type_401.2_no_authorization_header
+  @connected_network_type_401.02_no_authorization_header
   Scenario: No Authorization header
     Given the header "Authorization" is removed
     And the request body is set to a valid request body
@@ -159,7 +159,7 @@ Feature: CAMARA Connected Network Type API, vwip - Operation getConnectedNetwork
     And the response property "$.code" is "UNAUTHENTICATED"
     And the response property "$.message" contains a user friendly text
 
-  @connected_network_type_401.3_malformed_access_token
+  @connected_network_type_401.03_malformed_access_token
   Scenario: Malformed access token
     Given the header "Authorization" is set to a malformed token
     And the request body is set to a valid request body
@@ -174,7 +174,7 @@ Feature: CAMARA Connected Network Type API, vwip - Operation getConnectedNetwork
 # Error code 403
 #################
 
-  @connected_network_type_403_permissions_denied
+  @connected_network_type_403.01_permissions_denied
   Scenario: Client does not have sufficient permissions to perform this action
     Given header "Authorization" set to an access token not including scope "connected-network-type:read"
     And the request body is set to a valid request body
@@ -182,6 +182,34 @@ Feature: CAMARA Connected Network Type API, vwip - Operation getConnectedNetwork
     Then the response status code is 403
     And the response property "$.status" is 403
     And the response property "$.code" is "PERMISSION_DENIED"
+    And the response property "$.message" contains a user friendly text
+
+#################
+# Error code 429
+#################
+
+  @connected_network_type_429.01_Too_Many_Requests
+  #To test this scenario environment has to be configured to reject requests reaching the threshold limit set.
+  Scenario: Request is rejected due to threshold policy
+    Given a valid request for "getConnectedNetworkType"
+    And the header "Authorization" is set to a valid access token
+    And the threshold of requests has been reached
+    When the request "getConnectedNetworkType" is sent
+    Then the response status code is 429
+    And the response property "$.status" is 429
+    And the response property "$.code" is "TOO_MANY_REQUESTS"
+    And the response property "$.message" contains a user friendly text
+
+  @connected_network_type_429.02_Quota_Exceeded
+  #To test this scenario environment has to be configured to reject requests reaching the allocated quota.
+  Scenario: Request is rejected due to API consumer quota being reached
+    Given a valid request for "getConnectedNetworkType"
+    And the header "Authorization" is set to a valid access token
+    And the API consumer allocated quota of requests has been reached
+    When the request "getConnectedNetworkType" is sent
+    Then the response status code is 429
+    And the response property "$.status" is 429
+    And the response property "$.code" is "QUOTA_EXCEEDED"
     And the response property "$.message" contains a user friendly text
 
 #################
