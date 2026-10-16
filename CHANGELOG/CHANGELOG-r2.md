@@ -116,6 +116,7 @@ Changes documented below are compared to version 0.3.0-rc.1.
 
 * [Added / Changed / Removed] Updates for Commonalities r4.4 by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/87
   * Remove error codes 409 CONFLICT and 409 INCOMPATIBLE_STATE for connected-network-type-subscriptions subscription creation
+  * Remove error code 400 OUT_OF_RANGE for connected-network-type-subscriptions subscription listing
 
 ## connected-network-type 0.3.0-rc.2
 
