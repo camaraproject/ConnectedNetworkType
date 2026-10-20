@@ -45,8 +45,8 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip - Operation creat
     And the response property "$.status", if present, has the value "ACTIVATION_REQUESTED", "ACTIVE" or "INACTIVE"
 
     Examples:
-      | subscription-creation-types                                                             |
-      | org.camaraproject.connected-network-type-subscriptions.v0.network-type-changed          |
+      | subscription-creation-types                                                    |
+      | org.camaraproject.connected-network-type-subscriptions.v0.network-type-changed |
 
   @connected_network_type_subscriptions_01.2_sync_creation_3legs
   Scenario Outline: Synchronous subscription creation with 3-legged-access-token
@@ -68,8 +68,8 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip - Operation creat
     And the response property "$.config.subscriptionDetail.device" is not present
 
     Examples:
-      | subscription-creation-types                                                             |
-      | org.camaraproject.connected-network-type-subscriptions.v0.network-type-changed          |
+      | subscription-creation-types                                                    |
+      | org.camaraproject.connected-network-type-subscriptions.v0.network-type-changed |
 
   @connected_network_type_subscriptions_02_async_creation
   Scenario Outline: Asynchronous subscription creation with 2- or 3-legged access token
@@ -86,10 +86,20 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip - Operation creat
     And the response property "$.id" is present
 
     Examples:
-      | subscription-creation-types                                                             |
-      | org.camaraproject.connected-network-type-subscriptions.v0.network-type-changed          |
+      | subscription-creation-types                                                    |
+      | org.camaraproject.connected-network-type-subscriptions.v0.network-type-changed |
 
-  @connected_network_type_subscriptions_03_receive_notification_when_network_type_changed
+  @connected-network-type_subscriptions_03_subscription_creation_event_validation
+  Scenario: Receive notification for subscription-started event on creation
+    Given a valid subscription request body
+    When the request "createConnectedNetworkTypeSubscription" is sent
+    Then the response code is 201 or 202
+    And event notification "subscription-started" is received on callback-url
+    And notification body complies with the OAS schema at "#/components/schemas/EventSubscriptionStarted"
+    And type="org.camaraproject.connected-network-type-subscriptions.v0.subscription-started"
+    And the response property "$.initiationReason" is "SUBSCRIPTION_CREATED"
+
+  @connected_network_type_subscriptions_04_receive_notification_when_network_type_changed
   Scenario: Receive notification for network-type-changed event
     Given a valid subscription for a device exists with "subscriptionId" equal to "id"
     And the subscription property "$.types" contains the element "org.camaraproject.connected-network-type-subscriptions.v0.network-type-changed"
@@ -101,7 +111,7 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip - Operation creat
     And the notification property "$.type" is equal to "org.camaraproject.connected-network-type-subscriptions.v0.network-type-changed"
     And the notification property "$.data.subscriptionId" is equal to "id"
 
-  @connected_network_type_subscriptions_04_subscription_expiry
+  @connected_network_type_subscriptions_05_subscription_expiry
   Scenario: Receive notification for subscription-ended event on expiry
     Given a valid subscription for a device exists with "subscriptionId" equal to "id"
     And the subscription property "$.config.subscriptionExpireTime" is set to a value in the near future
@@ -113,7 +123,7 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip - Operation creat
     And the notification property "$.data.subscriptionId" is equal to "id"
     And the notification property "$.data.terminationReason" is equal to "SUBSCRIPTION_EXPIRED"
 
-  @connected_network_type_subscriptions_05_subscription_end_when_max_events
+  @connected_network_type_subscriptions_06_subscription_end_when_max_events
   Scenario: Receive notification for subscription-ended event on max events reached
     Given a valid subscription for a device exists with "subscriptionId" equal to "id"
     And the subscription property "$.config.subscriptionMaxEvents" is set to 1
@@ -125,7 +135,7 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip - Operation creat
     And the notification property "$.data.subscriptionId" is equal to "id"
     And the notification request property "$.data.terminationReason" is equal to "MAX_EVENTS_REACHED"
 
-  @connected_network_type_subscriptions_06_subscription_creation_initial_event
+  @connected_network_type_subscriptions_07_subscription_creation_initial_event
   Scenario: Receive initial event notification on creation
     Given the API supports initial events to be sent
     And a valid subscription request body with property "$.config.initialEvent" set to true
@@ -134,7 +144,7 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip - Operation creat
     And an event notification of the subscribed type is received on callback-url
     And notification body complies with the OAS schema at "#/components/schemas/CloudEvent"
 
-  @connected_network_type_subscriptions_10_create_connected_network_type_subscription_sync_with_accesstoken_sink_credential
+  @connected_network_type_subscriptions_08_create_connected_network_type_subscription_sync_with_accesstoken_sink_credential
   Scenario: Create connected network type subscription (sync creation) with ACCESSTOKEN sinkCredential
   # Some implementations may only support asynchronous subscription creation
   # Some implementations may decide to not return the sinkCredential in the response (data minimization principle)
@@ -152,7 +162,7 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip - Operation creat
     And the response body property "$.sinkCredential.credentialType", if present, is set to value "ACCESSTOKEN"
     And the response body property "$.sinkCredential.accessTokenExpiresUtc", if present, is set to the same value of the request property "$.sinkCredential.accessTokenExpiresUtc"
 
-  @connected_network_type_subscriptions_11_create_connected_network_type_subscription_sync_with_private_key_jwt_sink_credential_out_of_band_provisioning
+  @connected_network_type_subscriptions_09_create_connected_network_type_subscription_sync_with_private_key_jwt_sink_credential_out_of_band_provisioning
   Scenario: Create connected network type subscription (sync creation) with PRIVATE_KEY_JWT sinkCredential, out-of-band provisioning
   # Some implementations may only support asynchronous subscription creation
   # Some implementations may only support out_of_band provisioning
@@ -165,7 +175,7 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip - Operation creat
     And the response header "x-correlator" has the same value as the request header "x-correlator"
     And the response body complies with the OAS schema at "#/components/schemas/Subscription"
 
-  @connected_network_type_subscriptions_12_create_connected_network_type_subscription_sync_with_private_key_jwt_sink_credential_in_band_provisioning
+  @connected_network_type_subscriptions_10_create_connected_network_type_subscription_sync_with_private_key_jwt_sink_credential_in_band_provisioning
   Scenario: Create connected network type subscription (sync creation) with PRIVATE_KEY_JWT sinkCredential, in-band provisioning
   # Some implementations may only support asynchronous subscription creation
   # Some implementations may additionally support in_band provisioning
