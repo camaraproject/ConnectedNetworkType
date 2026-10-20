@@ -1,5 +1,5 @@
 # connected-network-type-subscriptions-retrieveConnectedNetworkTypeSubscriptionList
-Feature: CAMARA Connected Network Type Subscriptions API, vwip - Operation retrieveConnectedNetworkTypeSubscriptionList
+Feature: CAMARA Connected Network Type Subscriptions API, v0.3.0-rc.2 - Operation retrieveConnectedNetworkTypeSubscriptionList
 
   # Input to be provided by the implementation to the tester
   #
@@ -17,7 +17,7 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip - Operation retri
 
   Background: Connected Network Type Subscriptions setup
     Given an environment at "apiRoot"
-    And the resource "/connected-network-type-subscriptions/vwip"
+    And the resource "/connected-network-type-subscriptions/v0.3rc2"
     And the header "Authorization" is set to a valid access token
     And the header "x-correlator" complies with the schema at "#/components/schemas/XCorrelator"
 
