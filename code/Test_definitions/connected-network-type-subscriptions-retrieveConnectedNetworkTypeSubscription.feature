@@ -63,17 +63,17 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip - Operation retri
     And the response body property "$.sinkCredential.credentialType", if present, is set to value "ACCESSTOKEN"
     And the response body property "$.sinkCredential.accessTokenExpiresUtc", if present, is set to the same value of the request property "$.sinkCredential.accessTokenExpiresUtc"
 
-  @connected_network_type_subscriptions_04_Operation_to_retrieve_subscription_based_on_an_existing_subscription-id_private_jwt_key_sink_credential_returned
+  @connected_network_type_subscriptions_04_Operation_to_retrieve_subscription_based_on_an_existing_subscription-id_private_key_jwt_sink_credential_returned
   # Some implementations may decide to not return the sinkCredential in the response (data minimization principle)
-  # Mainly applicable for in-band provisioning of PRIVATE_JWT_KEY mode for a given subscription
-  Scenario: Get a subscription based on existing subscription-id, with PRIVATE_JWT_KEY sinkCredential returned.
+  # Mainly applicable for in-band provisioning of PRIVATE_KEY_JWT mode for a given subscription
+  Scenario: Get a subscription based on existing subscription-id, with PRIVATE_KEY_JWT sinkCredential returned.
     Given the path parameter "subscriptionId" is set to the identifier of an existing roaming status subscription
     When the request "retrieveConnectedNetworkTypeSubscription" is sent
     Then the response code is 200
     And the response header "Content-Type" is "application/json"
     And the response header "x-correlator" has the same value as the request header "x-correlator"
     And the response body complies with the OAS schema at "#/components/schemas/Subscription"
-    And the response body property "$.sinkCredential.credentialType" is set to value "PRIVATE_JWT_KEY"
+    And the response body property "$.sinkCredential.credentialType" is set to value "PRIVATE_KEY_JWT"
     And the response body property "$.sinkCredential.jwksUri" is set to a valid value
 
 ##################
