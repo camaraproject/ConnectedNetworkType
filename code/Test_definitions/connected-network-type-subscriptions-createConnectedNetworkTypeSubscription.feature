@@ -89,7 +89,7 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip - Operation creat
       | subscription-creation-types                                                    |
       | org.camaraproject.connected-network-type-subscriptions.v0.network-type-changed |
 
- @connected-network-type_subscriptions_03_subscription_creation_event_validation
+  @connected-network-type_subscriptions_03_subscription_creation_event_validation
   Scenario: Receive notification for subscription-started event on creation
     Given a valid subscription request body
     When the request "createConnectedNetworkTypeSubscription" is sent
