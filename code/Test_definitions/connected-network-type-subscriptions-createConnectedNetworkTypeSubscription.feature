@@ -96,8 +96,9 @@ Feature: CAMARA Connected Network Type Subscriptions API, vwip - Operation creat
     Then the response code is 201 or 202
     And event notification "subscription-started" is received on callback-url
     And notification body complies with the OAS schema at "#/components/schemas/EventSubscriptionStarted"
-    And type="org.camaraproject.connected-network-type-subscriptions.v0.subscription-started"
-    And the response property "$.initiationReason" is "SUBSCRIPTION_CREATED"
+    And the notification property "$.type" is equal to "org.camaraproject.connected-network-type-subscriptions.v0.subscription-started"
+    And the notification property "$.data.subscriptionId" is equal to response property "$.id"
+    And the notification property "$.data.initiationReason" is equal to "SUBSCRIPTION_CREATED"
 
   @connected_network_type_subscriptions_04_receive_notification_when_network_type_changed
   Scenario: Receive notification for network-type-changed event
