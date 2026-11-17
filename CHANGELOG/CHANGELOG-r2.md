@@ -100,7 +100,7 @@ Changes documented below are compared to version 0.2.0.
 ### Added
 
 * [Added] Move device connected network type subscription list scenarios to separate file and update by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/78
-  * Create file code/Test_definitions/connected-network-type-retrieveConnectedNetworkTypeSubscriptionList.feature and move relevant scenarios from code/Test_definitions/connected-network-type-subscriptions.feature
+  * Create file code/Test_definitions/connected-network-type-subscriptions-retrieveConnectedNetworkTypeSubscriptionList.feature and move relevant scenarios from code/Test_definitions/connected-network-type-subscriptions.feature
   * Add new scenarios:
     * @connected_network_type_subscriptions_03_operation_to_retrieve_list_of_subscriptions_when_no_records
     * @connected_network_type_subscriptions_04_pagination_default_values
