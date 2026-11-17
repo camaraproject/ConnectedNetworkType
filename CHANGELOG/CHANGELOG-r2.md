@@ -201,9 +201,7 @@ Changes documented below are compared to version 0.2.0.
 ### Removed
 
 * [Added / Changed / Removed] Updates for Commonalities r4.4 by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/87
-    * Remove 403 INVALID_TOKEN_CONTEXT and 404 NOT_FOUND from connected-network-type
-* [Removed] Remove the OUT_OF_RANGE error response from connected-network-type by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/95
-    * Remove 400 OUT_OF_RANGE from connected-network-type
+    * Remove 404 NOT_FOUND from connected-network-type (404 IDENTIFIER_NOT_FOUND remains)
 
 **Full Changelog**: https://github.com/camaraproject/ConnectedNetworkType/compare/r1.2...r2.3
 
