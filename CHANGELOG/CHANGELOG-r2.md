@@ -152,9 +152,8 @@ Changes documented below are compared to version 0.2.0.
 
 ### Removed
 
-* [Added / Changed / Removed] Updates for Commonalities r4.4 by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/87
-  * Remove error codes 409 CONFLICT and 409 INCOMPATIBLE_STATE for connected-network-type-subscriptions subscription creation
-  * Remove error code 400 OUT_OF_RANGE for connected-network-type-subscriptions subscription listing
+* The `PLAIN` and `REFRESHTOKEN` sink credential types and the `AMQP`, `KAFKA`, `MQTT3`, `MQTT5` and `NATS` protocol values by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/58
+  * Not breaking: 0.2.0 already required `credentialType` `ACCESSTOKEN` and allowed only `HTTP`
 
 ## connected-network-type 0.3.0
 
