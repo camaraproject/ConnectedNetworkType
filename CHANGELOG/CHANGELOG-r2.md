@@ -99,7 +99,7 @@ Changes documented below are compared to version 0.2.0.
 
 ### Added
 
-* [Added] Move device connected network type subscription list scenarios to separate file and update by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/78
+* Move device connected network type subscription list scenarios to separate file and update by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/78
   * Create file code/Test_definitions/connected-network-type-subscriptions-retrieveConnectedNetworkTypeSubscriptionList.feature and move relevant scenarios from code/Test_definitions/connected-network-type-subscriptions.feature
   * Add new scenarios:
     * @connected_network_type_subscriptions_03_operation_to_retrieve_list_of_subscriptions_when_no_records
@@ -127,7 +127,7 @@ Changes documented below are compared to version 0.2.0.
     * @connected_network_type_subscriptions_create_429.02_Quota_Exceeded
     * @connected_network_type_subscriptions_03_Operation_to_retrieve_subscription_based_on_an_existing_subscription-id_access_token_sink_credential_returned
     * @connected_network_type_subscriptions_04_Operation_to_retrieve_subscription_based_on_an_existing_subscription-id_private_key_jwt_sink_credential_returned
-* [Added] Add scenario for subscription-created event generation by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/96 and https://github.com/camaraproject/ConnectedNetworkType/pull/106
+* Add scenario for subscription-created event generation by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/96 and https://github.com/camaraproject/ConnectedNetworkType/pull/106
   * Scenario @connected-network-type_subscriptions_03_subscription_creation_event_validation added
   * Some scenarios renamed accordingly
 
@@ -173,7 +173,7 @@ Changes documented below are compared to version 0.2.0.
 
 ### Added
 
-* [Added / Changed / Removed] Updates for Commonalities r4.4 by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/87
+* Updates for Commonalities r4.4 by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/87
   * Update error response schema to use new common schema or locally defined schema
     * Add 503 UNAVAILABLE to connected-network-type
   * Add new test scenarios
@@ -199,7 +199,7 @@ Changes documented below are compared to version 0.2.0.
 
 ### Removed
 
-* [Added / Changed / Removed] Updates for Commonalities r4.4 by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/87
+* Updates for Commonalities r4.4 by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/87
     * Remove 404 NOT_FOUND from connected-network-type (404 IDENTIFIER_NOT_FOUND remains)
 
 **Full Changelog**: https://github.com/camaraproject/ConnectedNetworkType/compare/r1.2...r2.3
