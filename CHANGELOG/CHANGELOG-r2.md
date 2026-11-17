@@ -127,7 +127,7 @@ Changes documented below are compared to version 0.2.0.
     * @connected_network_type_subscriptions_create_429.02_Quota_Exceeded
     * @connected_network_type_subscriptions_03_Operation_to_retrieve_subscription_based_on_an_existing_subscription-id_access_token_sink_credential_returned
     * @connected_network_type_subscriptions_04_Operation_to_retrieve_subscription_based_on_an_existing_subscription-id_private_key_jwt_sink_credential_returned
-* [Added] Add scenario for subscription-created event generation by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/96
+* [Added] Add scenario for subscription-created event generation by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/96 and https://github.com/camaraproject/ConnectedNetworkType/pull/106
   * Scenario @connected-network-type_subscriptions_03_subscription_creation_event_validation added
   * Some scenarios renamed accordingly
 
