@@ -148,7 +148,6 @@ Changes documented below are compared to version 0.2.0.
 ### Fixed
 
 * Fix Network identifier example by @bigludo7 in https://github.com/camaraproject/ConnectedNetworkType/pull/50
-* [Fixed] Fix test scenario for subscription-started events by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/106
 
 ### Removed
 
