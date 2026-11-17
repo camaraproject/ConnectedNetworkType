@@ -168,7 +168,9 @@ Changes documented below are compared to version 0.2.0.
 
 ### Breaking changes
 
-* New error response code 503 UNAVAILABLE added in https://github.com/camaraproject/ConnectedNetworkType/pull/87
+* Response code 503 UNAVAILABLE added in https://github.com/camaraproject/ConnectedNetworkType/pull/87
+  * Implementations of 0.2.0 might already have returned this response, as the 0.2.0 test definitions expected it for a temporary network error
+* `lastStatusTime` in the 200 response can now be `null`, returned when the API provider has no information on when the connected network type was last confirmed, in https://github.com/camaraproject/ConnectedNetworkType/pull/69
 
 ### Added
 
