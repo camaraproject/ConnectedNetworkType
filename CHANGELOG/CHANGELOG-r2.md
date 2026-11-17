@@ -88,7 +88,10 @@ Changes documented below are compared to version 0.2.0.
 ### Breaking changes
 
 * New error response codes added for subscription creation
-  * 422 MULTIEVENT_SUBSCRIPTION_NOT_SUPPORTED, MULTIEVENT_COMBINATION_TEMPORARILY_NOT_SUPPORTED and PRIVATE_KEY_JWT_NOT_CONFIGURED and 404 IDENTIFIER_NOT_FOUND added in https://github.com/camaraproject/ConnectedNetworkType/pull/87
+  * 404 IDENTIFIER_NOT_FOUND added in https://github.com/camaraproject/ConnectedNetworkType/pull/87
+    * Implementations of 0.2.0 might already have returned this response, as the 0.2.0 test definitions expected it for an unknown device
+  * 422 MULTIEVENT_SUBSCRIPTION_NOT_SUPPORTED, MULTIEVENT_COMBINATION_TEMPORARILY_NOT_SUPPORTED and PRIVATE_KEY_JWT_NOT_CONFIGURED added in https://github.com/camaraproject/ConnectedNetworkType/pull/58
+    * The MULTIEVENT codes are not returned for requests that conform to the API definition, as `types` allows only one event type; PRIVATE_KEY_JWT_NOT_CONFIGURED is only returned for requests that use the new `PRIVATE_KEY_JWT` credential type
 * Property subscriptionDetail is now a required subscription creation parameter
 * Pagination for listing of subscriptions using GET /subscriptions is now supported following https://github.com/camaraproject/ConnectedNetworkType/pull/58
   *  Addition of `page` and `perPage` query parameters to control pagination
