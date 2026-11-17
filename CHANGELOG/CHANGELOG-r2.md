@@ -183,16 +183,16 @@ Changes documented below are compared to version 0.2.0.
 
 ### Changed
 
-* [Changed] Fix r2.1 review issues before r2.2 by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/77
-* [Added / Changed / Removed] Updates for Commonalities r4.4 by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/87
-  * Rename code/Test_definitions/connected-network-type.feature to code/Test_definitions/connected-network-type-getConnectedNetworkType.feature
-  * Renumber some test scenarios
-  * Fix some examples
-* [Changed] Update API documentation by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/86
-* [Update] Documentation improvements by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/94
-* Clarify LastStatusTime description in YAML by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/47
-* Update API definitions to fix CAMARA validation warnings and hints by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/58
-* Improve description of Last Status Time property by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/73
+* Aligned with CAMARA Commonalities r4.4 (0.9.0) by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/58 and https://github.com/camaraproject/ConnectedNetworkType/pull/87
+  * Request inputs carry explicit length and range limits, e.g. `x-correlator` (256 characters) and the device identifiers; `device.ipv4Address.publicPort` must be at least 1 (`0` was allowed before but is not a usable port). No request that conforms to the documented semantics is rejected
+  * Updated the info.description template sections and added the section on request body strictness: requests with undeclared properties are rejected with `400 INVALID_ARGUMENT`
+  * Renamed code/Test_definitions/connected-network-type.feature to code/Test_definitions/connected-network-type-getConnectedNetworkType.feature
+  * Renumbered some test scenarios
+  * Updated examples
+* `lastStatusTime` can now be `null` (see Breaking changes) and its description was clarified by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/47, https://github.com/camaraproject/ConnectedNetworkType/pull/69 and https://github.com/camaraproject/ConnectedNetworkType/pull/73
+* Improved the API documentation by @eric-murray in https://github.com/camaraproject/ConnectedNetworkType/pull/73, https://github.com/camaraproject/ConnectedNetworkType/pull/86 and https://github.com/camaraproject/ConnectedNetworkType/pull/94
+  * Clarified the `connectedNetworkType` values: `5G` includes 5G-SA and 5G-NSA networks; `UNKNOWN` also covers WiFi, satellite or no connection
+  * Added an error handling section to the info.description
 
 ### Fixed
 
