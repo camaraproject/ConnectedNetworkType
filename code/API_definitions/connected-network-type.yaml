@@ -341,6 +341,7 @@ components:
       properties:
         device:
           $ref: "../common/CAMARA_common.yaml#/components/schemas/Device"
+      additionalProperties: false
 
   examples:
     IdentifyDeviceBy3LeggedToken:
